@@ -1,0 +1,19 @@
+.circleDiv{
+	width:200px;
+	height:200px;
+	background-color:red;
+	border-radius:50%;
+	
+	opacity: 0.6;
+}
+span
+{
+	position: fixed;
+	line-height: 180px;
+	z-index: 1;
+    line-height: normal;
+    display:inline-block;
+    vertical-align: middle;
+}
+/*text-align:center;
+	line-height:180px;*/
