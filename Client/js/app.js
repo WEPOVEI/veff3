@@ -2,7 +2,6 @@ var EvalClient = angular.module('EvalClient',['ngRoute']);
 
 angular.module('EvalClient').config(['#routeProvider',
 	function($routeProvider){
-		console.log('config');
 		$routeProvider
 			.when('/login', {templateUrl: 'Views/login.html', controller: 'LoginController'})
 			.otherwise({
