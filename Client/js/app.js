@@ -64,11 +64,9 @@ angular.module('EvalClient').controller('AdminController', ['$scope', '$location
 	function ($scope, $location, $rootScope, $routeParams, $http){
 
 		$("#menu-toggle").click(function(e) {
-        e.preventDefault();
-        $("#wrapper").toggleClass("toggled");
-    });
-
-		
+        	e.preventDefault();
+        	$("#wrapper").toggleClass("toggled");
+    	});	
 	}]);
 
 
