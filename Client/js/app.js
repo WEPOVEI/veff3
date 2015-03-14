@@ -1,15 +1,14 @@
 var EvalClient = angular.module('EvalClient',['ngRoute']);
 
-angular.module('EvalClient').config(['#routeProvider',
-	function($routeProvider){
+angular.module('EvalClient').config(
+	['$routeProvider',
+	function ($routeProvider) {
 		$routeProvider
-			.when('/login', {templateUrl: 'Views/login.html', controller: 'LoginController'})
+			.when('/login', { templateUrl: 'views/login.html', controller: 'LoginController' })
 			.otherwise({
-				redirectTo: '/login'
+	  			redirectTo: '/login'
 			});
 	}
-
-
 ]);
 
 angular.module('EvalClient').controller('LoginController', ['$scope', '$location', '$rootScope', '$routeParams', 
