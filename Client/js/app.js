@@ -63,9 +63,14 @@ angular.module('EvalClient').controller('StudentController', ['$scope', '$locati
 
 angular.module('EvalClient').controller('AdminController', ['$scope', '$location', '$rootScope', '$routeParams', '$http', 
 	function ($scope, $location, $rootScope, $routeParams, $http){
+
+		$("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
+
 		
 	}]);
-
 
 
 
