@@ -40,6 +40,8 @@ angular.module('EvalClient').controller('LoginController',['$scope', '$location'
             	};
             	$http.post("http://dispatch.ru.is/h33/api/v1/login", obj).success(function(data){
             		console.log("dosi hoe");
+            		console.log(data.User.Role);
+
             	});
             }
 		};
