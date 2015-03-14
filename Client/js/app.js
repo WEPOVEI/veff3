@@ -1,6 +1,6 @@
 var EvalClient = angular.module('EvalClient',['ngRoute']);
 
-angular.module('EvalClient').config(['#routeProvider',
+EvalClient.config(
 	function($routeProvider){
 		$routeProvider
 			.when('/login', {templateUrl: 'Views/login.html', controller: 'LoginController'})
@@ -10,9 +10,8 @@ angular.module('EvalClient').config(['#routeProvider',
 	}
 
 
-]);
+);
 
-angular.module('EvalClient').controller('LoginController', ['$scope', '$location', '$rootScope', '$routeParams', 
-	function ($scope, $location, $rootScope, $routeParams){
+EvalClient.controller('LoginController', function ($scope, $location, $rootScope, $routeParams){
 		console.log("login");
-}]);
+});
