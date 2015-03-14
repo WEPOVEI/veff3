@@ -39,9 +39,12 @@ angular.module('EvalClient').controller('LoginController',['$scope', '$location'
             		user: $scope.user,
             		pass: $scope.password
             	};
+            	
             	$http.post("http://dispatch.ru.is/h33/api/v1/login", obj).success(function(data){
             		console.log("dosi hoe");
             		$location.path(/student/ + $scope.user);
+
+            		console.log(data.User.Role);
             	});
             }
 		};
