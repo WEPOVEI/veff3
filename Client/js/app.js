@@ -12,7 +12,7 @@ angular.module('EvalClient').config(
 	}
 ]);
 
-EvalClient.controller('LoginController', function ($scope, $location, $rootScope, $routeParams){
+angular.module('EvalClient').controller('LoginController',['$scope', '$location', '$rootScope', '$routeParams', function ($scope, $location, $rootScope, $routeParams){
 		console.log("login");
 		$scope.user = '';
 		$scope.password = '';
