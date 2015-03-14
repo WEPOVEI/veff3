@@ -15,6 +15,8 @@ angular.module('EvalClient').config(
 	function ($routeProvider) {
 		$routeProvider
 			.when('/login', { templateUrl: 'views/login.html', controller: 'LoginController' })
+			.when('/student/:user/', { templateUrl: 'views/student.html', controller: 'StudentController'})
+			.when('/admin/:admin/', { templateUrl: 'views/admin.html', controller: 'AdminController'})
 			.otherwise({
 	  			redirectTo: '/login'
 			});
@@ -26,6 +28,7 @@ angular.module('EvalClient').controller('LoginController',['$scope', '$location'
 		console.log("login");
 		$scope.user = '';
 		$scope.password = '';
+		$scope.admin = '';
 		$scope.login = function() {
             if($scope.user === ''|| $scope.password === ''){
             	console.log("error msg");
@@ -38,15 +41,30 @@ angular.module('EvalClient').controller('LoginController',['$scope', '$location'
             		user: $scope.user,
             		pass: $scope.password
             	};
+
             	$http.post("http://dispatch.ru.is/h33/api/v1/login", obj).success(function(data){
             		console.log("dosi hoe");
-            		console.log(data.User.Role);
+            		if(data.User.Role === 'student'){
+            			$location.path(/student/ + $scope.user);
+            		}
+            		else if(data.User.Role === 'admin'){
+            			$location.path(/admin/ + $scope.admin);
+            		}
+            		//console.log(data.User.Role);
             	});
             }
 		};
 }]);
 
+angular.module('EvalClient').controller('StudentController', ['$scope', '$location', '$rootScope', '$routeParams', '$http', 
+	function ($scope, $location, $rootScope, $routeParams, $http){
+		
+	}]);
 
+angular.module('EvalClient').controller('AdminController', ['$scope', '$location', '$rootScope', '$routeParams', '$http', 
+	function ($scope, $location, $rootScope, $routeParams, $http){
+		
+	}]);
 
 
 
