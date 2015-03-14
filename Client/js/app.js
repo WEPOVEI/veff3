@@ -28,7 +28,6 @@ angular.module('EvalClient').controller('LoginController',['$scope', '$location'
 		console.log("login");
 		$scope.user = '';
 		$scope.password = '';
-		$scope.admin = '';
 		$scope.login = function() {
             if($scope.user === ''|| $scope.password === ''){
             	console.log("error msg");
@@ -48,7 +47,7 @@ angular.module('EvalClient').controller('LoginController',['$scope', '$location'
             			$location.path(/student/ + $scope.user);
             		}
             		else if(data.User.Role === 'admin'){
-            			$location.path(/admin/ + $scope.admin);
+            			$location.path(/admin/ + $scope.user);
             		}
             		//console.log(data.User.Role);
             	});
