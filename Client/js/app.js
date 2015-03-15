@@ -66,7 +66,11 @@ angular.module('EvalClient').controller('AdminController', ['$scope', '$location
 		$("#menu-toggle").click(function(e) {
         	e.preventDefault();
         	$("#wrapper").toggleClass("toggled");
-    	});	
+    	});
+
+    	$scope.createEval = function() {
+    		console.log("Name: " + $scope.tName);
+    	};
 	}]);
 
 
