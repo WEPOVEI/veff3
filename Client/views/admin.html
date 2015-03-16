@@ -41,11 +41,23 @@
                                     <form>
                                         <label for="user" class="control-label">Template name</label>
                                         <input type="text" class="form-control" id="tName" name="tName" ng-model="tName" autofocus/>
+                                        <label for="intro" class="control-label">Intro</label>
+                                        <input type="text" class="form-control" id="intro" name="intro" ng-model="intro"/>
+                                        <label for="Qestion" class="control-label">Add question</label>
+                                        <input type="text" class="form-control" id="Qestion" name="Qestion" ng-model="Qestion"/>
+                                        <label for="Qestion" class="control-label">Add answer</label>
+                                        <input type="text" class="form-control" id="Answer" name="Answer" ng-model="Answer"/>
+                                        <input type="radio" name="radios" id="course" value="OptionOne" checked="checked">
+                                        Course Question
+                                        <input type="radio" name="radios" id="teacher" value="OptionTwo">
+                                        Teacher Question
+                                        <br>
+                                        <button type="button" class="btn btn-default" id="addQuestion" ng-click="addQuestion()">Add</button>
                                     </form>
                               </div>
                               <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary" ng-click="createEval()">Save</button>
+                                <button type="button" class="btn btn-primary" ng-click="createTemplate()">Save</button>
                               </div>
                             </div>
                           </div>

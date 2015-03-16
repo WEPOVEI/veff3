@@ -75,23 +75,62 @@ angular.module('EvalClient').controller('StudentController', ['$scope', '$locati
 angular.module('EvalClient').controller('AdminController', ['$scope', '$location', '$rootScope', '$routeParams', '$http', 
 	function ($scope, $location, $rootScope, $routeParams, $http){
 
+		$scope.courseQ = [];
+		$scope.teachQ = [];
+
 		$("#menu-toggle").click(function(e) {
         	e.preventDefault();
         	$("#wrapper").toggleClass("toggled");
     	});
+		console.log("Name " + $scope.tName);
+		console.log("Intro " + $scope.intro);
+		$scope.addQuestion = function() {
+			$scope.ans = {
+				ID: 1,
+		        Text: $scope.Answer,
+		        TextEN: $scope.Answer,
+		        ImageUR: "none",
+		        Weight: 5
+			};
+			$scope.quest = {
+    			ID: 1,
+			  	Text: $scope.Qestion,
+			  	TextEN: $scope.Qestion,
+			  	ImageURL: "none",
+			  	Type: "none",
+			  	Answer: $scope.ans
+    		};
+			if (document.getElementById('course').checked) {
+				$scope.courseQ.push($scope.quest);
+			}else if(document.getElementById('teacher').checked){
+				$scope.teachQ.push($scope.quest);
+			}
+			console.log("Question: " + $scope.Qestion);
 
-    	$scope.createEval = function() {
+			$('#Qestion').val('');
+			$('#Answer').val('');
+		};
+
+    	$scope.createTemplate = function() {
     		console.log("Name: " + $scope.tName);
+    		$scope.template = {
+    			ID: 1,
+			  	Title: $scope.tName,
+			  	TitleEN: $scope.tName,
+			  	IntroText: $scope.intro,
+			  	IntroTextEN: $scope.intro,
+    			CourseQuestions: $scope.courseQ,
+    			TeacherQuestions: $scope.teachQ
+    		};
+    		if($scope.template.CourseQuestions.length ===0 && $scope.template.TeacherQuestions.length == 0){
+    			console.log("error");
+    		}else{
+    			// Create template
+    			console.log("ekki error");
+    			console.log($scope.template);
+    		}
     	};
 	}]);
-
-
-
-
-
-
-
-
 
 
 
