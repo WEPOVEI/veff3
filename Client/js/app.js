@@ -56,21 +56,15 @@ angular.module('EvalClient').controller('LoginController',['$scope', '$location'
             	.error(function(){
             		console.log("fail");
             	});
-
-            	/*$http.post("http://dispatch.ru.is/h33/api/v1/login", obj).success(function(data){
-            		console.log("dosi hoe");
-            		if(data.User.Role === 'student'){
-            			$location.path(/student/ + $scope.user);
-            		}
-            		else if(data.User.Role === 'admin'){
-            			$location.path(/admin/ + $scope.user);
-            		}
-            		//console.log(data.User.Role);
-            	});*/
-
-			
             }
 		};
+
+			/* press enter to login*/
+            	$("#password").keyup(function(event){
+	    			if(event.keyCode == 13){
+	        			$("#login").click();
+	    			}
+				});
 }]);
 
 angular.module('EvalClient').controller('StudentController', ['$scope', '$location', '$rootScope', '$routeParams', '$http', 
