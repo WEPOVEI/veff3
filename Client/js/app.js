@@ -1,6 +1,7 @@
 var EvalClient = angular.module('EvalClient',['ngRoute']);
 
 angular.module('EvalClient').constant("SERVER_URL", "http://dispatch.ru.is/h33/api/v1/");
+
 angular.module('EvalClient').factory('LoginResource',['$http', 'SERVER_URL', function($http, SERVER_URL){
 	return{
 		login: function (template){
@@ -8,6 +9,31 @@ angular.module('EvalClient').factory('LoginResource',['$http', 'SERVER_URL', fun
 		}
 	}
 }]);
+
+angular.module('EvalClient').factory('TokenResource', function(){
+	var tokenArray = [];
+	return{
+		storetoken: function(user,token){
+			var tokendetails = {
+				user: user,
+				token: token
+			};
+			console.log("storing " + tokendetails.user);
+			tokenArray.push(tokendetails);
+			console.log(tokenArray[0]);
+		},
+		gettoken: function(user){
+			for(var i in tokenArray){
+				console.log("getting " + tokenArray[i].user);
+				console.log("his auth is " + tokenArray[i].token);
+				if(tokenArray[i].user === user){
+					console.log("found ya!");
+					return tokenArray[i].token;
+				}
+			}
+		}
+	}
+});
 
 
 angular.module('EvalClient').config(
@@ -23,8 +49,8 @@ angular.module('EvalClient').config(
 	}
 ]);
 
-angular.module('EvalClient').controller('LoginController',['$scope', '$location', '$rootScope', '$routeParams', '$http', 'LoginResource', 
-	function ($scope, $location, $rootScope, $routeParams, $http, LoginResource){
+angular.module('EvalClient').controller('LoginController',['$scope', '$location', '$rootScope', '$routeParams', '$http', 'LoginResource', 'TokenResource',
+	function ($scope, $location, $rootScope, $routeParams, $http, LoginResource,TokenResource){
 		console.log("login");
 		$scope.user = '';
 		$scope.password = '';
@@ -43,6 +69,10 @@ angular.module('EvalClient').controller('LoginController',['$scope', '$location'
 
             	LoginResource.login(obj).success(function(response){
             		console.log("success");
+            		console.log("the token " + response.Token);
+
+            		/*Get auth token and store it in factory for later usage*/
+            		TokenResource.storetoken(obj.user, response.Token);
 
             		if(response.User.Role === 'student'){
             			$location.path(/student/ + $scope.user);
@@ -67,13 +97,16 @@ angular.module('EvalClient').controller('LoginController',['$scope', '$location'
 				});
 }]);
 
-angular.module('EvalClient').controller('StudentController', ['$scope', '$location', '$rootScope', '$routeParams', '$http', 
-	function ($scope, $location, $rootScope, $routeParams, $http){
+angular.module('EvalClient').controller('StudentController', ['$scope', '$location', '$rootScope', '$routeParams', '$http','TokenResource', 
+	function ($scope, $location, $rootScope, $routeParams, $http, TokenResource){
+		console.log("routeparams dude: " + $routeParams.user);
+		var tokenius = TokenResource.gettoken($routeParams.user);
+		console.log("tokenius: " + tokenius);
 		
 	}]);
 
-angular.module('EvalClient').controller('AdminController', ['$scope', '$location', '$rootScope', '$routeParams', '$http', 
-	function ($scope, $location, $rootScope, $routeParams, $http){
+angular.module('EvalClient').controller('AdminController', ['$scope', '$location', '$rootScope', '$routeParams', '$http', 'TokenResource',
+	function ($scope, $location, $rootScope, $routeParams, $http, TokenResource){
 
 		$scope.courseQ = [];
 		$scope.teachQ = [];
