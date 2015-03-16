@@ -77,6 +77,7 @@ angular.module('EvalClient').controller('AdminController', ['$scope', '$location
 
 		$scope.courseQ = [];
 		$scope.teachQ = [];
+		$scope.answers = [];
 
 		$("#menu-toggle").click(function(e) {
         	e.preventDefault();
@@ -84,7 +85,8 @@ angular.module('EvalClient').controller('AdminController', ['$scope', '$location
     	});
 		console.log("Name " + $scope.tName);
 		console.log("Intro " + $scope.intro);
-		$scope.addQuestion = function() {
+		$scope.addAnswer = function() {
+			$('#Answer').val('');
 			$scope.ans = {
 				ID: 1,
 		        Text: $scope.Answer,
@@ -92,27 +94,31 @@ angular.module('EvalClient').controller('AdminController', ['$scope', '$location
 		        ImageUR: "none",
 		        Weight: 5
 			};
+			$scope.answers.push($scope.ans);
+		};
+		$scope.addQuestion = function() {
+			$('#Qestion').val('');
 			$scope.quest = {
     			ID: 1,
 			  	Text: $scope.Qestion,
 			  	TextEN: $scope.Qestion,
 			  	ImageURL: "none",
 			  	Type: "none",
-			  	Answer: $scope.ans
+			  	Answer: $scope.answers
     		};
+    		$scope.answers.length = 0;
+
 			if (document.getElementById('course').checked) {
 				$scope.courseQ.push($scope.quest);
+				console.log("courseQ.length: " + $scope.courseQ.length);
 			}else if(document.getElementById('teacher').checked){
 				$scope.teachQ.push($scope.quest);
 			}
-			console.log("Question: " + $scope.Qestion);
-
-			$('#Qestion').val('');
-			$('#Answer').val('');
 		};
 
     	$scope.createTemplate = function() {
     		console.log("Name: " + $scope.tName);
+    		console.log("courseQ.length: " + $scope.courseQ.length);
     		$scope.template = {
     			ID: 1,
 			  	Title: $scope.tName,
@@ -124,11 +130,14 @@ angular.module('EvalClient').controller('AdminController', ['$scope', '$location
     		};
     		if($scope.template.CourseQuestions.length ===0 && $scope.template.TeacherQuestions.length == 0){
     			console.log("error");
+    			console.log($scope.template);
     		}else{
     			// Create template
     			console.log("ekki error");
     			console.log($scope.template);
     		}
+    		$scope.courseQ.length = 0;
+    		$scope.teachQ.length = 0;
     	};
 	}]);
 
