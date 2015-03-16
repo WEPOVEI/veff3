@@ -75,9 +75,9 @@ angular.module('EvalClient').controller('StudentController', ['$scope', '$locati
 angular.module('EvalClient').controller('AdminController', ['$scope', '$location', '$rootScope', '$routeParams', '$http', 
 	function ($scope, $location, $rootScope, $routeParams, $http){
 
-		$scope.courseQ = [];
-		$scope.teachQ = [];
-		$scope.answers = [];
+		var courseQ = [];
+		var teachQ = [];
+		var answers = [];
 
 		$("#menu-toggle").click(function(e) {
         	e.preventDefault();
@@ -85,59 +85,69 @@ angular.module('EvalClient').controller('AdminController', ['$scope', '$location
     	});
 		console.log("Name " + $scope.tName);
 		console.log("Intro " + $scope.intro);
+		var ans = {};
+		var quest = {};
 		$scope.addAnswer = function() {
 			$('#Answer').val('');
-			$scope.ans = {
-				ID: 1,
+			ans = {
+				//ID: 1,
 		        Text: $scope.Answer,
 		        TextEN: $scope.Answer,
 		        ImageUR: "none",
 		        Weight: 5
 			};
-			$scope.answers.push($scope.ans);
+			answers.push(ans);
 		};
 		$scope.addQuestion = function() {
 			$('#Qestion').val('');
-			$scope.quest = {
-    			ID: 1,
+			var a = answers.slice();
+			quest = {
+    			//ID: 1,
 			  	Text: $scope.Qestion,
 			  	TextEN: $scope.Qestion,
 			  	ImageURL: "none",
 			  	Type: "none",
-			  	Answer: $scope.answers
+			  	Answer: a
     		};
-    		$scope.answers.length = 0;
+    		answers.length = 0;
+    		//$scope.answers.length = 0;
 
 			if (document.getElementById('course').checked) {
-				$scope.courseQ.push($scope.quest);
-				console.log("courseQ.length: " + $scope.courseQ.length);
+				courseQ.push(quest);
+				console.log("courseQ.length: " + courseQ.length);
 			}else if(document.getElementById('teacher').checked){
-				$scope.teachQ.push($scope.quest);
+				teachQ.push(quest);
+				console.log("teachQ.length: " + teachQ.length);
 			}
 		};
-
+		var template = {};
     	$scope.createTemplate = function() {
     		console.log("Name: " + $scope.tName);
-    		console.log("courseQ.length: " + $scope.courseQ.length);
-    		$scope.template = {
-    			ID: 1,
+    		console.log("courseQ.length: " + courseQ.length);
+    		var cQ = courseQ.slice();
+    		var tQ = teachQ.slice();
+    		template = {
+    			//ID: 1,
 			  	Title: $scope.tName,
 			  	TitleEN: $scope.tName,
 			  	IntroText: $scope.intro,
 			  	IntroTextEN: $scope.intro,
-    			CourseQuestions: $scope.courseQ,
-    			TeacherQuestions: $scope.teachQ
+    			CourseQuestions: cQ,
+    			TeacherQuestions: tQ
     		};
-    		if($scope.template.CourseQuestions.length ===0 && $scope.template.TeacherQuestions.length == 0){
+    		//var obj = JSON.parse($scope.template);
+    		//console.log(obj);
+    		if(template.CourseQuestions.length === 0 && template.TeacherQuestions.length === 0){
     			console.log("error");
-    			console.log($scope.template);
+    			console.log(template);
     		}else{
     			// Create template
     			console.log("ekki error");
-    			console.log($scope.template);
-    		}
-    		$scope.courseQ.length = 0;
-    		$scope.teachQ.length = 0;
+    			console.log(template);
+    			courseQ.length = 0;
+    			teachQ.length = 0;
+    			//$scope.teachQ.length = [];
+    		}	
     	};
 	}]);
 
