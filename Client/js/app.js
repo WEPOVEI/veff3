@@ -108,9 +108,9 @@ angular.module('EvalClient').controller('StudentController', ['$scope', '$locati
 angular.module('EvalClient').controller('AdminController', ['$scope', '$location', '$rootScope', '$routeParams', '$http', 'TokenResource',
 	function ($scope, $location, $rootScope, $routeParams, $http, TokenResource){
 
-		var courseQ = [];
-		var teachQ = [];
-		var answers = [];
+		$scope.courseQ = [];
+		$scope.teachQ = [];
+		$scope.answers = [];
 
 		$("#menu-toggle").click(function(e) {
         	e.preventDefault();
@@ -118,23 +118,22 @@ angular.module('EvalClient').controller('AdminController', ['$scope', '$location
     	});
 		console.log("Name " + $scope.tName);
 		console.log("Intro " + $scope.intro);
-		var ans = {};
-		var quest = {};
+		
 		$scope.addAnswer = function() {
 			$('#Answer').val('');
-			ans = {
+			$scope.ans = {
 				//ID: 1,
 		        Text: $scope.Answer,
 		        TextEN: $scope.Answer,
 		        ImageUR: "none",
 		        Weight: 5
 			};
-			answers.push(ans);
+			$scope.answers.push($scope.ans);
 		};
 		$scope.addQuestion = function() {
 			$('#Qestion').val('');
-			var a = answers.slice();
-			quest = {
+			var a = $scope.answers.slice();
+			$scope.quest = {
     			//ID: 1,
 			  	Text: $scope.Qestion,
 			  	TextEN: $scope.Qestion,
@@ -142,24 +141,23 @@ angular.module('EvalClient').controller('AdminController', ['$scope', '$location
 			  	Type: "none",
 			  	Answer: a
     		};
-    		answers.length = 0;
-    		//$scope.answers.length = 0;
+    		$scope.answers.length = 0;
 
 			if (document.getElementById('course').checked) {
-				courseQ.push(quest);
-				console.log("courseQ.length: " + courseQ.length);
+				$scope.courseQ.push($scope.quest);
+				console.log("courseQ.length: " + $scope.courseQ.length);
 			}else if(document.getElementById('teacher').checked){
-				teachQ.push(quest);
-				console.log("teachQ.length: " + teachQ.length);
+				$scope.teachQ.push($scope.quest);
+				console.log("teachQ.length: " + $scope.teachQ.length);
 			}
 		};
-		var template = {};
+		//var template = {};
     	$scope.createTemplate = function() {
     		console.log("Name: " + $scope.tName);
-    		console.log("courseQ.length: " + courseQ.length);
-    		var cQ = courseQ.slice();
-    		var tQ = teachQ.slice();
-    		template = {
+    		console.log("courseQ.length: " + $scope.courseQ.length);
+    		var cQ = $scope.courseQ.slice();
+    		var tQ = $scope.teachQ.slice();
+    		$scope.template = {
     			//ID: 1,
 			  	Title: $scope.tName,
 			  	TitleEN: $scope.tName,
@@ -168,17 +166,16 @@ angular.module('EvalClient').controller('AdminController', ['$scope', '$location
     			CourseQuestions: cQ,
     			TeacherQuestions: tQ
     		};
-    		//var obj = JSON.parse($scope.template);
-    		//console.log(obj);
-    		if(template.CourseQuestions.length === 0 && template.TeacherQuestions.length === 0){
+
+    		if($scope.template.CourseQuestions.length === 0 && $scope.template.TeacherQuestions.length === 0){
     			console.log("error");
     			console.log(template);
     		}else{
     			// Create template
     			console.log("ekki error");
-    			console.log(template);
-    			courseQ.length = 0;
-    			teachQ.length = 0;
+    			console.log($scope.template);
+    			$scope.courseQ.length = 0;
+    			$scope.teachQ.length = 0;
     			//$scope.teachQ.length = [];
     		}	
     	};
