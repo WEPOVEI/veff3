@@ -43,9 +43,9 @@
                                         <input type="text" class="form-control" id="tName" name="tName" ng-model="tName" autofocus/>
                                         <label for="intro" class="control-label">Intro</label>
                                         <input type="text" class="form-control" id="intro" name="intro" ng-model="intro"/>
-                                        <label for="Qestion" class="control-label">Add question</label>
+                                        <label for="Qestion" class="control-label">Question:</label>
                                         <input type="text" class="form-control" id="Qestion" name="Qestion" ng-model="Qestion"/>
-                                        <label for="Qestion" class="control-label">Add answer</label>
+                                        <label for="Qestion" class="control-label">Answer:</label>
                                         <input type="text" class="form-control" id="Answer" name="Answer" ng-model="Answer"/>
                                         <input type="radio" name="radios" id="course" value="OptionOne" checked="checked">
                                         Course Question
@@ -54,6 +54,16 @@
                                         <br>
                                         <button type="button" class="btn btn-default" id="addAnswer" ng-click="addAnswer()">Add answer</button>
                                         <button type="button" class="btn btn-default" id="addQuestion" ng-click="addQuestion()">Submit Question</button>
+
+                                        <table class="table">
+                                        <thead>
+                                              <tr>
+                                                    <th>Start date: <input type="text" class="span2" value="" id="dpd1"></th>
+                                                    <th>End date: <input type="text" class="span2" value="" id="dpd2"></th>
+                                              </tr>
+                                            </thead>
+                                      </table>
+
                                     </form>
                               </div>
                               <div class="modal-footer">
