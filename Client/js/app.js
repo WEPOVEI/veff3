@@ -59,7 +59,8 @@ angular.module('EvalClient').config(
 	}
 ]);
 
-angular.module('EvalClient').controller('LoginController',['$scope', '$location', '$rootScope', '$routeParams', '$http', 'LoginResource', 'TokenResource',
+angular.module('EvalClient').controller('LoginController',
+	['$scope', '$location', '$rootScope', '$routeParams', '$http', 'LoginResource', 'TokenResource',
 	function ($scope, $location, $rootScope, $routeParams, $http, LoginResource,TokenResource){
 		console.log("login");
 		$scope.user = '';
@@ -109,32 +110,21 @@ angular.module('EvalClient').controller('LoginController',['$scope', '$location'
 				});
 }]);
 
-angular.module('EvalClient').controller('StudentController', ['$scope', '$location', '$rootScope', '$routeParams', 
-	'$http','TokenResource', 'CourseResource', 
+angular.module('EvalClient').controller('StudentController', 
+	['$scope', '$location', '$rootScope', '$routeParams', '$http','TokenResource', 'CourseResource', 
 	function ($scope, $location, $rootScope, $routeParams, $http, TokenResource, CourseResource){
 		$scope.coursearr = [];
 		$scope.currentuser = $routeParams.user;
-		console.log("routeuser: " + $routeParams.user);
-		console.log("scopecurrentuser: " + $scope.currentuser);
-
-		console.log("routeparams dude: " + $routeParams.user);
 		var tokenius = TokenResource.gettoken($routeParams.user);
-		console.log("tokenius: " + tokenius);
 
 		/*token to send with request*/
 		$http.defaults.headers.common.Authorization = "Basic " + tokenius;
 
+		/* get all courses from api and push course objects into array for later usage*/
 		CourseResource.getcourses($routeParams.user).success(function(response){
-			console.log("success course api");
-			console.log(response);
-			console.log("before loop");
-			console.log(response[0].Name);
+
 			for(var i in response){
 				$scope.coursearr.push(response[i]);
-			}
-			console.log("this is in my array");
-			for(var i in $scope.coursearr){
-				console.log($scope.coursearr[i]);
 			}
 		})
 		.error(function(error){
@@ -145,7 +135,8 @@ angular.module('EvalClient').controller('StudentController', ['$scope', '$locati
 		
 	}]);
 
-angular.module('EvalClient').controller('AdminController', ['$scope', '$location', '$rootScope', '$routeParams', '$http', 'TokenResource',
+angular.module('EvalClient').controller('AdminController', 
+	['$scope', '$location', '$rootScope', '$routeParams', '$http', 'TokenResource',
 	function ($scope, $location, $rootScope, $routeParams, $http, TokenResource){
 
 		$scope.courseQ = [];
