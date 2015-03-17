@@ -142,6 +142,7 @@ angular.module('EvalClient').controller('AdminController',
 		$scope.courseQ = [];
 		$scope.teachQ = [];
 		$scope.answers = [];
+		$scope.answerOption = 1;
 
 		// Datepicker start
 		/*var nowTemp = new Date();
@@ -168,8 +169,15 @@ angular.module('EvalClient').controller('AdminController',
 		  checkout.hide();
 		}).data('datepicker');
 		// Datepicker end*/
-
-
+		$scope.text = function() {
+			$scope.answerOption = 1;
+		}
+		$scope.single = function() {
+			$scope.answerOption = 2;
+		}
+		$scope.multiple = function() {
+			$scope.answerOption = 3;
+		}
 
 		$("#menu-toggle").click(function(e) {
         	e.preventDefault();
@@ -178,29 +186,84 @@ angular.module('EvalClient').controller('AdminController',
 		console.log("Name " + $scope.tName);
 		console.log("Intro " + $scope.intro);
 
-		$scope.addAnswer = function() {
-			$('#Answer').val('');
-			$scope.ans = {
-				//ID: 1,
-		        Text: $scope.Answer,
-		        TextEN: $scope.Answer,
-		        ImageUR: "none",
-		        Weight: 5
-			};
-			$scope.answers.push($scope.ans);
-		};
 		$scope.addQuestion = function() {
+			var type = "";
+			if($scope.answerOption === 1){
+				type = "text";
+				$scope.quest = {
+	    			//ID: 1,
+				  	Text: $scope.Qestion,
+				  	TextEN: $scope.Qestion,
+				  	//ImageURL: "none",
+				  	Type: type
+	    		};
+
+			}else if($scope.answerOption === 2 || $scope.answerOption === 3){
+				if($scope.answerOption === 2){
+					type = "single";
+				}else{
+					type = "multiple";
+				}
+				
+				$scope.ans1 = {
+					//ID: 1,
+			        Text: $scope.Answer1,
+			        TextEN: $scope.Answer1,
+			        //ImageURL: "none",
+			        Weight: 1
+				};
+				$scope.answers.push($scope.ans1);
+				$scope.ans2 = {
+					//ID: 1,
+			        Text: $scope.Answer2,
+			        TextEN: $scope.Answer2,
+			        //ImageURL: "none",
+			        Weight: 2
+				};
+				$scope.answers.push($scope.ans2);
+				$scope.ans3 = {
+					//ID: 1,
+			        Text: $scope.Answer3,
+			        TextEN: $scope.Answer3,
+			        //ImageURL: "none",
+			        Weight: 3
+				};
+				$scope.answers.push($scope.ans3);
+				$scope.ans4 = {
+					//ID: 1,
+			        Text: $scope.Answer4,
+			        TextEN: $scope.Answer4,
+			        //ImageURL: "none",
+			        Weight: 4
+				};
+				$scope.answers.push($scope.ans4);
+				$scope.ans5 = {
+					//ID: 1,
+			        Text: $scope.Answer5,
+			        TextEN: $scope.Answer5,
+			        //ImageURL: "none",
+			        Weight: 5
+				};
+				$scope.answers.push($scope.ans5);
+				$('#Answer1').val('');
+				$('#Answer2').val('');
+				$('#Answer3').val('');
+				$('#Answer4').val('');
+				$('#Answer5').val('');
+
+				var a = $scope.answers.slice();
+				$scope.quest = {
+	    			//ID: 1,
+				  	Text: $scope.Qestion,
+				  	TextEN: $scope.Qestion,
+				  	//ImageURL: "none",
+				  	Type: type,
+				  	Answer: a
+	    		};
+	    		$scope.answers.length = 0;
+			}
+
 			$('#Qestion').val('');
-			var a = $scope.answers.slice();
-			$scope.quest = {
-    			//ID: 1,
-			  	Text: $scope.Qestion,
-			  	TextEN: $scope.Qestion,
-			  	ImageURL: "none",
-			  	Type: "none",
-			  	Answer: a
-    		};
-    		$scope.answers.length = 0;
 
 			if (document.getElementById('course').checked) {
 				$scope.courseQ.push($scope.quest);
@@ -242,9 +305,9 @@ angular.module('EvalClient').controller('AdminController',
 				$http.defaults.headers.common.Authorization = "Basic " + tokenius;
     			$http.post("http://dispatch.ru.is/h33/api/v1/evaluationtemplates", $scope.template).success(function(re){
     				console.log("template hefur verid sent a server");
-    				var start = $('#dpd1').datepicker('getDate');
-    				var end = $('#dpd2').datepicker('getDate');
-    				console.log(start.toISOString() + " -- " + end.toISOString());
+    				//var start = $('#dpd1').datepicker('getDate');
+    				//var end = $('#dpd2').datepicker('getDate');
+    				//console.log(start.toISOString() + " -- " + end.toISOString());
     			})
     			$scope.courseQ.length = 0;
     			$scope.teachQ.length = 0;
