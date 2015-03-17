@@ -57,10 +57,7 @@
                                         <button type="button" class="btn btn-default" ng-click="single()">Single</button>
                                         <button type="button" class="btn btn-default" ng-click="multiple()">Multiple</button>
 
-                                        <div ng-show="answerOption === 1">
-                                            
-                                        </div>
-                                        <div ng-show="answerOption === 2">
+                                        <div ng-show="answerOption === 2 || answerOption === 3">
                                             <label for="Single" class="control-label">Answer:</label>
                                             <input type="text" class="form-control" id="Answer1" name="Single" ng-model="Answer1"/>
                                             <input type="text" class="form-control" id="Answer2" name="Single" ng-model="Answer2"/>
@@ -68,10 +65,6 @@
                                             <input type="text" class="form-control" id="Answer4" name="Single" ng-model="Answer4"/>
                                             <input type="text" class="form-control" id="Answer5" name="Single" ng-model="Answer5"/>
                                         </div>
-                                        <div ng-show="answerOption === 3">
-                                            
-                                        </div>
-
 
                                         <input type="radio" name="radios" id="course" value="OptionOne" checked="checked"/>
                                         Course Question
