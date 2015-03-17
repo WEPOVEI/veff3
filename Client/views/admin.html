@@ -44,14 +44,40 @@
                                         <input type="text" class="form-control" id="intro" name="intro" ng-model="intro"/>
                                         <label for="Qestion" class="control-label">Question:</label>
                                         <input type="text" class="form-control" id="Qestion" name="Qestion" ng-model="Qestion"/>
-                                        <label for="Qestion" class="control-label">Answer:</label>
-                                        <input type="text" class="form-control" id="Answer" name="Answer" ng-model="Answer"/>
-                                        <input type="radio" name="radios" id="course" value="OptionOne" checked="checked">
+
+                                        <!--<label for="answers" class="control-label">Type of answer:</label>
+                                        <input type="radio" name="answers" id="textA" value="1" checked="checked"/>
+                                        Text
+                                        <input type="radio" name="answers" id="singleA" value="2"/>
+                                        Single
+                                        <input type="radio" name="answers" id="mutlA" value="3"/>
+                                        Multiple
+                                        <br>-->
+                                        <button type="button" class="btn btn-default" ng-click="text()">Text</button>
+                                        <button type="button" class="btn btn-default" ng-click="single()">Single</button>
+                                        <button type="button" class="btn btn-default" ng-click="multiple()">Multiple</button>
+
+                                        <div ng-show="answerOption === 1">
+                                            
+                                        </div>
+                                        <div ng-show="answerOption === 2">
+                                            <label for="Single" class="control-label">Answer:</label>
+                                            <input type="text" class="form-control" id="Answer1" name="Single" ng-model="Answer1"/>
+                                            <input type="text" class="form-control" id="Answer2" name="Single" ng-model="Answer2"/>
+                                            <input type="text" class="form-control" id="Answer3" name="Single" ng-model="Answer3"/>
+                                            <input type="text" class="form-control" id="Answer4" name="Single" ng-model="Answer4"/>
+                                            <input type="text" class="form-control" id="Answer5" name="Single" ng-model="Answer5"/>
+                                        </div>
+                                        <div ng-show="answerOption === 3">
+                                            
+                                        </div>
+
+
+                                        <input type="radio" name="radios" id="course" value="OptionOne" checked="checked"/>
                                         Course Question
                                         <input type="radio" name="radios" id="teacher" value="OptionTwo">
                                         Teacher Question
                                         <br>
-                                        <button type="button" class="btn btn-default" id="addAnswer" ng-click="addAnswer()">Add answer</button>
                                         <button type="button" class="btn btn-default" id="addQuestion" ng-click="addQuestion()">Submit Question</button>
 
                                       <!--  <table class="table">
