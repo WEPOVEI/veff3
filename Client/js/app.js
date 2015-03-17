@@ -118,7 +118,7 @@ angular.module('EvalClient').controller('AdminController', ['$scope', '$location
     	});
 		console.log("Name " + $scope.tName);
 		console.log("Intro " + $scope.intro);
-		
+
 		$scope.addAnswer = function() {
 			$('#Answer').val('');
 			$scope.ans = {
@@ -174,6 +174,9 @@ angular.module('EvalClient').controller('AdminController', ['$scope', '$location
     			// Create template
     			console.log("ekki error");
     			console.log($scope.template);
+    			$http.post("http://dispatch.ru.is/h33/api/v1/evaluationtemplates", ).success(function(response){
+
+    			})
     			$scope.courseQ.length = 0;
     			$scope.teachQ.length = 0;
     			//$scope.teachQ.length = [];
