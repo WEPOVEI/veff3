@@ -112,6 +112,11 @@ angular.module('EvalClient').controller('LoginController',['$scope', '$location'
 angular.module('EvalClient').controller('StudentController', ['$scope', '$location', '$rootScope', '$routeParams', 
 	'$http','TokenResource', 'CourseResource', 
 	function ($scope, $location, $rootScope, $routeParams, $http, TokenResource, CourseResource){
+		$scope.coursearr = [];
+		$scope.currentuser = $routeParams.user;
+		console.log("routeuser: " + $routeParams.user);
+		console.log("scopecurrentuser: " + $scope.currentuser);
+
 		console.log("routeparams dude: " + $routeParams.user);
 		var tokenius = TokenResource.gettoken($routeParams.user);
 		console.log("tokenius: " + tokenius);
@@ -122,6 +127,15 @@ angular.module('EvalClient').controller('StudentController', ['$scope', '$locati
 		CourseResource.getcourses($routeParams.user).success(function(response){
 			console.log("success course api");
 			console.log(response);
+			console.log("before loop");
+			console.log(response[0].Name);
+			for(var i in response){
+				$scope.coursearr.push(response[i]);
+			}
+			console.log("this is in my array");
+			for(var i in $scope.coursearr){
+				console.log($scope.coursearr[i]);
+			}
 		})
 		.error(function(error){
 			console.log("error: " + error);
