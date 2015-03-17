@@ -101,12 +101,12 @@ angular.module('EvalClient').controller('LoginController',['$scope', '$location'
             }
 		};
 
-			/* press enter to login*/
-            	$("#password").keyup(function(event){
-	    			if(event.keyCode == 13){
-	        			$("#login").click();
-	    			}
-				});
+		/* press enter to login*/
+    	$("#password").keyup(function(event){
+			if(event.keyCode == 13){
+    			$("#login").click();
+			}
+		});
 }]);
 
 angular.module('EvalClient').controller('StudentController', ['$scope', '$location', '$rootScope', '$routeParams', 
@@ -137,6 +137,34 @@ angular.module('EvalClient').controller('AdminController', ['$scope', '$location
 		$scope.courseQ = [];
 		$scope.teachQ = [];
 		$scope.answers = [];
+
+		// Datepicker start
+		var nowTemp = new Date();
+		var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
+		 
+		var checkin = $('#dpd1').datepicker({
+		  onRender: function(date) {
+		    return date.valueOf() < now.valueOf() ? 'disabled' : '';
+		  }
+		}).on('changeDate', function(ev) {
+		  if (ev.date.valueOf() > checkout.date.valueOf()) {
+		    var newDate = new Date(ev.date)
+		    newDate.setDate(newDate.getDate() + 1);
+		    checkout.setValue(newDate);
+		  }
+		  checkin.hide();
+		  $('#dpd2')[0].focus();
+		}).data('datepicker');
+		var checkout = $('#dpd2').datepicker({
+		  onRender: function(date) {
+		    return date.valueOf() <= checkin.date.valueOf() ? 'disabled' : '';
+		  }
+		}).on('changeDate', function(ev) {
+		  checkout.hide();
+		}).data('datepicker');
+		// Datepicker end
+
+
 
 		$("#menu-toggle").click(function(e) {
         	e.preventDefault();
@@ -195,17 +223,26 @@ angular.module('EvalClient').controller('AdminController', ['$scope', '$location
 
     		if($scope.template.CourseQuestions.length === 0 && $scope.template.TeacherQuestions.length === 0){
     			console.log("error");
-    			console.log(template);
+    			console.log($scope.template);
     		}else{
     			// Create template
     			console.log("ekki error");
     			console.log($scope.template);
-    			$http.post("http://dispatch.ru.is/h33/api/v1/evaluationtemplates", ).success(function(response){
 
+    			var tokenius = TokenResource.gettoken($routeParams.admin);
+    			console.log("Er admin " + $routeParams.admin + " ?");
+				console.log("tokenius: " + tokenius);
+
+				/*token to send with request*/
+				$http.defaults.headers.common.Authorization = "Basic " + tokenius;
+    			$http.post("http://dispatch.ru.is/h33/api/v1/evaluationtemplates", $scope.template).success(function(re){
+    				console.log("template hefur verid sent a server");
+    				var start = $('#dpd1').datepicker('getDate');
+    				var end = $('#dpd2').datepicker('getDate');
+    				console.log(start.toISOString() + " -- " + end.toISOString());
     			})
     			$scope.courseQ.length = 0;
     			$scope.teachQ.length = 0;
-    			//$scope.teachQ.length = [];
     		}	
     	};
 	}]);
