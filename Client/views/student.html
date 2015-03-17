@@ -1,21 +1,29 @@
 <div class="container">
-	<div class="col-md-4">
-		<h3>{{currentuser}} Courses</h3>
-		<table class="table table-striped">
-			<thead>
-		 		<tr>
-		 			<th>Námskeið</th>
-		 			<th>Nafn</th>
-		 			<th>Name</th>
-		 		</tr>
-		 	</thead>
-		 	<tbody>
-		 		<tr ng-repeat="item in coursearr">
-		 			<td>{{item.CourseID}}</td>
-		 			<td>{{item.Name}}</td>
-		 			<td>{{item.NameEN}}</td>
-		 		</tr>
-		 	</tbody>
-		</table>
+	<div class="row">
+		<div class="col-md-4">
+			<h3>{{currentuser}} Courses</h3>
+			<table class="table table-striped">
+				<thead>
+			 		<tr>
+			 			<th>Námskeið</th>
+			 			<th>Nafn</th>
+			 			<th>Name</th>
+			 		</tr>
+			 	</thead>
+			 	<tbody>
+			 		<tr ng-repeat="item in courseobjarr">
+			 			<td>{{item.CourseID}}</td>
+			 			<td>{{item.Name}}</td>
+			 			<td>{{item.NameEN}}</td>
+			 		</tr>
+			 	</tbody>
+			</table>
+		</div>
+		<!--<div class="col-md-4">
+			<h3>Námskeið sem þú átt eftir að meta</h3>
+			<ul class="list-group" ng-repeat="item in courseobjarr">
+				<li class="list-group-item-warning">{{item.Name}}/{{item.NameEN}}</li>
+			</ul>
+		</div>-->
 	</div>
 </div>

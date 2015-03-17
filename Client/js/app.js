@@ -113,7 +113,7 @@ angular.module('EvalClient').controller('LoginController',
 angular.module('EvalClient').controller('StudentController', 
 	['$scope', '$location', '$rootScope', '$routeParams', '$http','TokenResource', 'CourseResource', 
 	function ($scope, $location, $rootScope, $routeParams, $http, TokenResource, CourseResource){
-		$scope.coursearr = [];
+		$scope.courseobjarr = [];
 		$scope.currentuser = $routeParams.user;
 		var tokenius = TokenResource.gettoken($routeParams.user);
 
@@ -124,7 +124,7 @@ angular.module('EvalClient').controller('StudentController',
 		CourseResource.getcourses($routeParams.user).success(function(response){
 
 			for(var i in response){
-				$scope.coursearr.push(response[i]);
+				$scope.courseobjarr.push(response[i]);
 			}
 		})
 		.error(function(error){
