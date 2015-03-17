@@ -144,7 +144,7 @@ angular.module('EvalClient').controller('AdminController',
 		$scope.answers = [];
 
 		// Datepicker start
-		var nowTemp = new Date();
+		/*var nowTemp = new Date();
 		var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
 		 
 		var checkin = $('#dpd1').datepicker({
@@ -167,7 +167,7 @@ angular.module('EvalClient').controller('AdminController',
 		}).on('changeDate', function(ev) {
 		  checkout.hide();
 		}).data('datepicker');
-		// Datepicker end
+		// Datepicker end*/
 
 
 
