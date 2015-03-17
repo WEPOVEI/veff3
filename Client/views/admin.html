@@ -28,6 +28,26 @@
                       
                         <a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Template Menu</a>
 
+                            <div class="col-md-4">
+                                <h3>Templates you've created</h3>
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Title(IS)</th>
+                                            <th>Title(EN)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="temp in evaltemparr">
+                                            <td>{{temp.ID}}</td>
+                                            <td>{{temp.Title}}</td>
+                                            <td>{{temp.TitleEN}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                             </div>
+
                         <!-- Modal -->
                         <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                            <div class="modal-dialog">

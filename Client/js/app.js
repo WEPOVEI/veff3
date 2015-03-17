@@ -143,7 +143,9 @@ angular.module('EvalClient').controller('AdminController',
 		$scope.teachQ = [];
 		$scope.answers = [];
 		$scope.answerOption = 1;
+		$scope.evaltemparr = [];
 
+		var tokenius = TokenResource.gettoken($routeParams.admin);
 		// Datepicker start
 		/*var nowTemp = new Date();
 		var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
@@ -297,13 +299,13 @@ angular.module('EvalClient').controller('AdminController',
     			console.log("ekki error");
     			console.log($scope.template);
 
-    			var tokenius = TokenResource.gettoken($routeParams.admin);
+    			
     			console.log("Er admin " + $routeParams.admin + " ?");
 				console.log("tokenius: " + tokenius);
 
 				/*token to send with request*/
 				$http.defaults.headers.common.Authorization = "Basic " + tokenius;
-    			$http.post("http://dispatch.ru.is/h33/api/v1/evaluationtemplates", $scope.template).success(function(re){
+    			$http.post("http://dispatch.ru.is/h33/api/v1/evaluationtemplates", $scope.template).success(function (){
     				console.log("template hefur verid sent a server");
     				//var start = $('#dpd1').datepicker('getDate');
     				//var end = $('#dpd2').datepicker('getDate');
@@ -313,6 +315,27 @@ angular.module('EvalClient').controller('AdminController',
     			$scope.teachQ.length = 0;
     		}	
     	};
+
+    	console.log("about to get evaltemplates");
+    	$http.defaults.headers.common.Authorization = "Basic " + tokenius;
+    	$http.get("http://dispatch.ru.is/h33/api/v1/evaluationtemplates").success(function (response){
+    		console.log(response);
+    		for(var i in response){
+				$scope.evaltemparr.push(response[i]);
+			}
+
+    	})
+    	.error(function(){
+    		console.log("get error");
+    	})
+
+
+
+
+
+
+
+
 	}]);
 
 
