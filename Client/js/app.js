@@ -2,7 +2,7 @@ var EvalClient = angular.module('EvalClient',['ngRoute']);
 
 angular.module('EvalClient').constant("SERVER_URL", "http://dispatch.ru.is/h33/api/v1/");
 
-angular.module('EvalClient').factory('LoginResource',['$http', 'SERVER_URL', function($http, SERVER_URL){
+angular.module('EvalClient').factory('LoginResource',['$http', 'SERVER_URL', function ($http, SERVER_URL){
 	return{
 		login: function (template){
 			return $http.post(SERVER_URL + "login", template);
@@ -35,10 +35,19 @@ angular.module('EvalClient').factory('TokenResource', function(){
 	}
 });
 
+angular.module('EvalClient').factory('CourseResource', ['$http', 'SERVER_URL', function ($http, SERVER_URL){
+
+	return{
+		getcourses: function(user){
+			return $http.get(SERVER_URL + "my" + "/courses");
+		}
+	}
+}]);
+
 
 angular.module('EvalClient').config(
-	['$routeProvider',
-	function ($routeProvider) {
+	['$routeProvider', '$httpProvider',
+	function ($routeProvider, $httpProvider) {
 		$routeProvider
 			.when('/login', { templateUrl: 'views/login.html', controller: 'LoginController' })
 			.when('/student/:user/', { templateUrl: 'views/student.html', controller: 'StudentController'})
@@ -46,6 +55,7 @@ angular.module('EvalClient').config(
 			.otherwise({
 	  			redirectTo: '/login'
 			});
+
 	}
 ]);
 
@@ -74,6 +84,8 @@ angular.module('EvalClient').controller('LoginController',['$scope', '$location'
             		/*Get auth token and store it in factory for later usage*/
             		TokenResource.storetoken(obj.user, response.Token);
 
+
+
             		if(response.User.Role === 'student'){
             			$location.path(/student/ + $scope.user);
             		}
@@ -97,11 +109,25 @@ angular.module('EvalClient').controller('LoginController',['$scope', '$location'
 				});
 }]);
 
-angular.module('EvalClient').controller('StudentController', ['$scope', '$location', '$rootScope', '$routeParams', '$http','TokenResource', 
-	function ($scope, $location, $rootScope, $routeParams, $http, TokenResource){
+angular.module('EvalClient').controller('StudentController', ['$scope', '$location', '$rootScope', '$routeParams', 
+	'$http','TokenResource', 'CourseResource', 
+	function ($scope, $location, $rootScope, $routeParams, $http, TokenResource, CourseResource){
 		console.log("routeparams dude: " + $routeParams.user);
 		var tokenius = TokenResource.gettoken($routeParams.user);
 		console.log("tokenius: " + tokenius);
+
+		/*token to send with request*/
+		$http.defaults.headers.common.Authorization = "Basic " + tokenius;
+
+		CourseResource.getcourses($routeParams.user).success(function(response){
+			console.log("success course api");
+			console.log(response);
+		})
+		.error(function(error){
+			console.log("error: " + error);
+			console.log("fail course api");
+		});
+
 		
 	}]);
 
