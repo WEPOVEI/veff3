@@ -1,6 +1,21 @@
 <div class="container">
-	welcome you
-	<ul>
-		
-	</ul>
+	<div class="col-md-4">
+		<h3>{{currentuser}} Courses</h3>
+		<table class="table table-striped">
+			<thead>
+		 		<tr>
+		 			<th>Námskeið</th>
+		 			<th>Nafn</th>
+		 			<th>Name</th>
+		 		</tr>
+		 	</thead>
+		 	<tbody>
+		 		<tr ng-repeat="item in coursearr">
+		 			<td>{{item.CourseID}}</td>
+		 			<td>{{item.Name}}</td>
+		 			<td>{{item.NameEN}}</td>
+		 		</tr>
+		 	</tbody>
+		</table>
+	</div>
 </div>
