@@ -44,6 +44,16 @@ angular.module('EvalClient').factory('CourseResource', ['$http', 'SERVER_URL', f
 	}
 }]);
 
+angular.module('EvalClient').factory('TemplateResource', ['$http', 'SERVER_URL', function ($http, SERVER_URL){
+
+	return{
+		gettemplates: function(){
+			return $http.get(SERVER_URL + "/evaluationtemplates");
+			//$http.get("http://dispatch.ru.is/h33/api/v1/evaluationtemplates")
+		}
+	}
+}]);
+
 
 angular.module('EvalClient').config(
 	['$routeProvider', '$httpProvider',
@@ -121,7 +131,7 @@ angular.module('EvalClient').controller('StudentController',
 		$http.defaults.headers.common.Authorization = "Basic " + tokenius;
 
 		/* get all courses from api and push course objects into array for later usage*/
-		CourseResource.getcourses($routeParams.user).success(function(response){
+		CourseResource.getcourses($routeParams.user).success(function (response){
 
 			for(var i in response){
 				$scope.courseobjarr.push(response[i]);
@@ -136,8 +146,8 @@ angular.module('EvalClient').controller('StudentController',
 	}]);
 
 angular.module('EvalClient').controller('AdminController', 
-	['$scope', '$location', '$rootScope', '$routeParams', '$http', 'TokenResource',
-	function ($scope, $location, $rootScope, $routeParams, $http, TokenResource){
+	['$scope', '$location', '$rootScope', '$routeParams', '$http', 'TokenResource','TemplateResource',
+	function ($scope, $location, $rootScope, $routeParams, $http, TokenResource, TemplateResource){
 
 		$scope.courseQ = [];
 		$scope.teachQ = [];
@@ -146,6 +156,19 @@ angular.module('EvalClient').controller('AdminController',
 		$scope.evaltemparr = [];
 
 		var tokenius = TokenResource.gettoken($routeParams.admin);
+
+		console.log("about to get evaltemplates");
+    	$http.defaults.headers.common.Authorization = "Basic " + tokenius;
+    	TemplateResource.gettemplates().success(function (response){
+    		console.log(response);
+    		for(var i in response){
+				$scope.evaltemparr.push(response[i]);
+			}
+
+    	})
+    	.error(function(){
+    		console.log("get error");
+    	})
 		// Datepicker start
 		/*var nowTemp = new Date();
 		var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
@@ -300,8 +323,8 @@ angular.module('EvalClient').controller('AdminController',
     			console.log($scope.template);
 
     			
-    			console.log("Er admin " + $routeParams.admin + " ?");
-				console.log("tokenius: " + tokenius);
+    			//console.log("Er admin " + $routeParams.admin + " ?");
+				//console.log("tokenius: " + tokenius);
 
 				/*token to send with request*/
 				$http.defaults.headers.common.Authorization = "Basic " + tokenius;
@@ -310,30 +333,21 @@ angular.module('EvalClient').controller('AdminController',
     				//var start = $('#dpd1').datepicker('getDate');
     				//var end = $('#dpd2').datepicker('getDate');
     				//console.log(start.toISOString() + " -- " + end.toISOString());
+    				TemplateResource.gettemplates().success(function (response){
+    					$scope.evaltemparr.length = 0;
+    					for(var i in response){
+
+							$scope.evaltemparr.push(response[i]);
+						}
+    				})
+    				.error(function (){
+    					console.log("update error on templates");
+    				});
     			})
     			$scope.courseQ.length = 0;
     			$scope.teachQ.length = 0;
     		}	
     	};
-
-    	console.log("about to get evaltemplates");
-    	$http.defaults.headers.common.Authorization = "Basic " + tokenius;
-    	$http.get("http://dispatch.ru.is/h33/api/v1/evaluationtemplates").success(function (response){
-    		console.log(response);
-    		for(var i in response){
-				$scope.evaltemparr.push(response[i]);
-			}
-
-    	})
-    	.error(function(){
-    		console.log("get error");
-    	})
-
-
-
-
-
-
 
 
 	}]);
