@@ -170,7 +170,7 @@ angular.module('EvalClient').controller('AdminController',
     		console.log("get error");
     	})
 		// Datepicker start
-		/*var nowTemp = new Date();
+		var nowTemp = new Date();
 		var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
 		 
 		var checkin = $('#dpd1').datepicker({
@@ -193,7 +193,8 @@ angular.module('EvalClient').controller('AdminController',
 		}).on('changeDate', function(ev) {
 		  checkout.hide();
 		}).data('datepicker');
-		// Datepicker end*/
+		// Datepicker end
+
 		$scope.text = function() {
 			$scope.answerOption = 1;
 		}
@@ -330,9 +331,7 @@ angular.module('EvalClient').controller('AdminController',
 				$http.defaults.headers.common.Authorization = "Basic " + tokenius;
     			$http.post("http://dispatch.ru.is/h33/api/v1/evaluationtemplates", $scope.template).success(function (){
     				console.log("template hefur verid sent a server");
-    				//var start = $('#dpd1').datepicker('getDate');
-    				//var end = $('#dpd2').datepicker('getDate');
-    				//console.log(start.toISOString() + " -- " + end.toISOString());
+    				
     				TemplateResource.gettemplates().success(function (response){
     					$scope.evaltemparr.length = 0;
     					for(var i in response){
@@ -347,6 +346,22 @@ angular.module('EvalClient').controller('AdminController',
     			$scope.courseQ.length = 0;
     			$scope.teachQ.length = 0;
     		}	
+    	};
+
+    	$scope.postEval = function() {
+    		var start = $('#dpd1').datepicker('getDate');
+			var end = $('#dpd2').datepicker('getDate');
+			if(start !== undefined && end !== undefined && $scope.tempID !== undefined){
+				console.log(start.toISOString() + " -- " + end.toISOString());
+				$scope.eval ={
+					TemplateID: $scope.tempID,
+					StartDate: start.toISOString(),
+					EndDate: end.toISOString()
+				};
+				$http.post("http://dispatch.ru.is/h33/api/v1/evaluations", $scope.eval).success(function (){
+					console.log("template has been sent");
+				})
+			}
     	};
 
 
