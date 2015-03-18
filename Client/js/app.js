@@ -153,26 +153,35 @@ angular.module('EvalClient').controller('StudentController',
 			console.log("err");
 		});
 
-		$scope.evaltitle = '';
+		$scope.evalTitle = '';
 		$scope.evaltitleEN = '';
-		$scope.coursequest = [];
+		$scope.courseQuest = [];
+		$scope.teachQuest = [];
+		$scope.ansType = '';
 		//$scope.
 		$scope.geteval = function(courseid, semester, id) {
+			$scope.courseQuest.length = 0;
+			$scope.teachQuest.length = 0;
 			console.log(courseid);
 			console.log(semester);
 			console.log(id);
 			$http.get("http://dispatch.ru.is/h33/api/v1/courses/" + courseid + "/" + semester + "/" + "evaluations/" + id)
 			.success(function (response){
-				console.log("schnilld")
-				console.log(response);
-
-				console.log(response.Title);
-				console.log(response.TitleEN);
+				$scope.evalTitle =  response["Title"];
+				$scope.evaltitleEN = response["TitleEN"];
 				
 				var s = response["CourseQuestions"];
-				console.log(s);
-				var ans = response["Answers"];
-				console.log(ans);
+				for (var key in s) {
+			   		var obj = s[key];
+			   		
+			   		$scope.courseQuest.push(obj);
+				}
+				var t = response["TeacherQuestions"];
+				for (var key in t) {
+					var obj = t[key];
+
+					$scope.teachQuest.push(obj);
+				}
 
 			})
 			.error(function (){
@@ -182,6 +191,47 @@ angular.module('EvalClient').controller('StudentController',
 
 		$scope.postAnswers = function() {
 			console.log("answers has been sent");
+			$scope.courseQuest.length = 0;
+			$scope.teachQuest.length = 0;
+		};
+
+		$scope.submitAnswer = function (question) {
+			console.log("->");
+			console.log(question);
+			var answer = "0";
+			if(question.Type === "text"){
+				var str = "#a" + question.ID;
+				console.log("string: " + str);
+				var text = $(str).val();
+				console.log("text: " + text);
+				answer = text;
+			}else {
+				// Mutliple will get the value of the last answer, because the API
+				// does not support it yet.
+				console.log("->");
+				console.log("a" + question.Answers[0].Text);
+				if (document.getElementById("a" + question.Answers[0].ID).checked) {
+					answer = "5";
+				}if(document.getElementById("b" + question.Answers[1].ID).checked){
+					answer = "4";
+				}if(document.getElementById("c" + question.Answers[2].ID).checked){
+					answer = "3";
+				}if(document.getElementById("d" + question.Answers[3].ID).checked){
+					answer = "2";
+				}if(document.getElementById("e" + question.Answers[4].ID).checked){
+					answer = "1";
+				}
+			}
+			console.log("answer: " + answer);
+			if(answer !== "0"){
+				console.log("lets send");
+			}else {
+				console.log("errno");
+			}
+			
+			
+
+
 		};
 		
 	}]);
@@ -277,7 +327,7 @@ angular.module('EvalClient').controller('AdminController',
 			        Text: $scope.Answer1,
 			        TextEN: $scope.Answer1,
 			        //ImageURL: "none",
-			        Weight: 1
+			        Weight: 5
 				};
 				$scope.answers.push($scope.ans1);
 				$scope.ans2 = {
@@ -285,7 +335,7 @@ angular.module('EvalClient').controller('AdminController',
 			        Text: $scope.Answer2,
 			        TextEN: $scope.Answer2,
 			        //ImageURL: "none",
-			        Weight: 2
+			        Weight: 4
 				};
 				$scope.answers.push($scope.ans2);
 				$scope.ans3 = {
@@ -301,7 +351,7 @@ angular.module('EvalClient').controller('AdminController',
 			        Text: $scope.Answer4,
 			        TextEN: $scope.Answer4,
 			        //ImageURL: "none",
-			        Weight: 4
+			        Weight: 2
 				};
 				$scope.answers.push($scope.ans4);
 				$scope.ans5 = {
@@ -309,7 +359,7 @@ angular.module('EvalClient').controller('AdminController',
 			        Text: $scope.Answer5,
 			        TextEN: $scope.Answer5,
 			        //ImageURL: "none",
-			        Weight: 5
+			        Weight: 1
 				};
 				$scope.answers.push($scope.ans5);
 				$('#Answer1').val('');
