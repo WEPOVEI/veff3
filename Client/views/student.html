@@ -5,9 +5,9 @@
 			<table class="table table-striped">
 				<thead>
 			 		<tr>
-			 			<th>Námskeið</th>
-			 			<th>Nafn</th>
-			 			<th>Name</th>
+			 			<th>CourseID</th>
+			 			<th>Course(IS)</th>
+			 			<th>Course(EN)</th>
 			 		</tr>
 			 	</thead>
 			 	<tbody>
@@ -19,11 +19,65 @@
 			 	</tbody>
 			</table>
 		</div>
-		<!--<div class="col-md-4">
-			<h3>Námskeið sem þú átt eftir að meta</h3>
-			<ul class="list-group" ng-repeat="item in courseobjarr">
-				<li class="list-group-item-warning">{{item.Name}}/{{item.NameEN}}</li>
-			</ul>
-		</div>-->
+		<div class="col-md-4">
+			<h3>Courses you haven't evalueted yet</h3>
+			<div class="panel panel-default">
+			    <table class="table table-hover">
+			      <tbody>
+			        <tr class ="warning" ng-repeat="item in courseobjarr">
+			          <td>
+			            {{item.Name}}/{{item.NameEN}}
+			          </td>
+			          <td class="text-right text-nowrap">
+			            <button class="btn btn-xs btn-info">Evaluate</button>
+			          </td>
+			        </tr>
+			      </tbody>
+			    </table>
+  			</div>
+		</div>
 	</div>
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

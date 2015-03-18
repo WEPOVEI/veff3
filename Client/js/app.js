@@ -18,16 +18,16 @@ angular.module('EvalClient').factory('TokenResource', function(){
 				user: user,
 				token: token
 			};
-			console.log("storing " + tokendetails.user);
+			//console.log("storing " + tokendetails.user);
 			tokenArray.push(tokendetails);
-			console.log(tokenArray[0]);
+			//console.log(tokenArray[0]);
 		},
 		gettoken: function(user){
 			for(var i in tokenArray){
-				console.log("getting " + tokenArray[i].user);
-				console.log("his auth is " + tokenArray[i].token);
+				//console.log("getting " + tokenArray[i].user);
+				//console.log("his auth is " + tokenArray[i].token);
 				if(tokenArray[i].user === user){
-					console.log("found ya!");
+					//console.log("found ya!");
 					return tokenArray[i].token;
 				}
 			}
