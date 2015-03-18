@@ -145,7 +145,7 @@ angular.module('EvalClient').controller('StudentController',
 
 		$http.get("http://dispatch.ru.is/h33/api/v1/my/evaluations").success(function (response){
 			for(var i in response){
-				console.log(response[i]);
+				//console.log(response[i]);
 				$scope.evalarr.push(response[i]);
 			}
 		})
@@ -153,6 +153,10 @@ angular.module('EvalClient').controller('StudentController',
 			console.log("err");
 		});
 
+		$scope.evaltitle = '';
+		$scope.evaltitleEN = '';
+		$scope.coursequest = [];
+		//$scope.
 		$scope.geteval = function(courseid, semester, id) {
 			console.log(courseid);
 			console.log(semester);
@@ -160,6 +164,16 @@ angular.module('EvalClient').controller('StudentController',
 			$http.get("http://dispatch.ru.is/h33/api/v1/courses/" + courseid + "/" + semester + "/" + "evaluations/" + id)
 			.success(function (response){
 				console.log("schnilld")
+				console.log(response);
+
+				console.log(response.Title);
+				console.log(response.TitleEN);
+				for(var i in response){
+					//evalarr.push(response[i]);
+				}
+				$scope.coursequest = response.CourseQuestions;
+				console.log(response["CourseQuestions"]);
+				
 			})
 			.error(function (){
 				console.log("vesen");
