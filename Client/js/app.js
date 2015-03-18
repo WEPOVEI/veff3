@@ -157,6 +157,13 @@ angular.module('EvalClient').controller('StudentController',
 			console.log(courseid);
 			console.log(semester);
 			console.log(id);
+			$http.get("http://dispatch.ru.is/h33/api/v1/courses/" + courseid + "/" + semester + "/" + "evaluations/" + id)
+			.success(function (response){
+				console.log("schnilld")
+			})
+			.error(function (){
+				console.log("vesen");
+			});
 		};
 		
 	}]);
@@ -179,7 +186,6 @@ angular.module('EvalClient').controller('AdminController',
     		console.log(response);
     		for(var i in response){
 				$scope.evaltemparr.push(response[i]);
-
 			}
 
     	})
