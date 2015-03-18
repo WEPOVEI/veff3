@@ -125,6 +125,7 @@ angular.module('EvalClient').controller('StudentController',
 	function ($scope, $location, $rootScope, $routeParams, $http, TokenResource, CourseResource){
 		$scope.courseobjarr = [];
 		$scope.currentuser = $routeParams.user;
+		$scope.evalarr = [];
 		var tokenius = TokenResource.gettoken($routeParams.user);
 
 		/*token to send with request*/
@@ -142,6 +143,21 @@ angular.module('EvalClient').controller('StudentController',
 			console.log("fail course api");
 		});
 
+		$http.get("http://dispatch.ru.is/h33/api/v1/my/evaluations").success(function (response){
+			for(var i in response){
+				console.log(response[i]);
+				$scope.evalarr.push(response[i]);
+			}
+		})
+		.error(function (){
+			console.log("err");
+		});
+
+		$scope.geteval = function(courseid, semester, id) {
+			console.log(courseid);
+			console.log(semester);
+			console.log(id);
+		};
 		
 	}]);
 
@@ -163,6 +179,7 @@ angular.module('EvalClient').controller('AdminController',
     		console.log(response);
     		for(var i in response){
 				$scope.evaltemparr.push(response[i]);
+
 			}
 
     	})

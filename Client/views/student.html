@@ -24,12 +24,12 @@
 			<div class="panel panel-default">
 			    <table class="table table-hover">
 			      <tbody>
-			        <tr class ="warning" ng-repeat="item in courseobjarr">
+			        <tr class ="warning" ng-repeat="item in evalarr">
 			          <td>
-			            {{item.Name}}/{{item.NameEN}}
+			            {{item.CourseName}}/{{item.CourseNameEN}}
 			          </td>
 			          <td class="text-right text-nowrap">
-			            <button class="btn btn-xs btn-info">Evaluate</button>
+			            <button class="btn btn-xs btn-info" ng-click="geteval(item.CourseID, item.Semester, item.ID)">Evaluate</button>
 			          </td>
 			        </tr>
 			      </tbody>
