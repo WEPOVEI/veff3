@@ -24,10 +24,7 @@ angular.module('EvalClient').factory('TokenResource', function(){
 		},
 		gettoken: function(user){
 			for(var i in tokenArray){
-				//console.log("getting " + tokenArray[i].user);
-				//console.log("his auth is " + tokenArray[i].token);
-				if(tokenArray[i].user === user){
-					//console.log("found ya!");
+				if(tokenArray[i].user === user){					
 					return tokenArray[i].token;
 				}
 			}
@@ -89,8 +86,7 @@ angular.module('EvalClient').controller('LoginController',
             	};
 
             	LoginResource.login(obj).success(function(response){
-            		console.log("success");
-            		console.log("the token " + response.Token);
+            		
 
             		/*Get auth token and store it in factory for later usage*/
             		TokenResource.storetoken(obj.user, response.Token);
@@ -139,7 +135,6 @@ angular.module('EvalClient').controller('StudentController',
 			}
 		})
 		.error(function(error){
-			console.log("error: " + error);
 			console.log("fail course api");
 		});
 
@@ -182,7 +177,6 @@ angular.module('EvalClient').controller('StudentController',
 
 					$scope.teachQuest.push(obj);
 				}
-
 			})
 			.error(function (){
 				console.log("vesen");
@@ -303,6 +297,8 @@ angular.module('EvalClient').controller('AdminController',
 		console.log("Name " + $scope.tName);
 		console.log("Intro " + $scope.intro);
 
+		$scope.pic = '';
+
 		$scope.addQuestion = function() {
 			var type = "";
 			if($scope.answerOption === 1){
@@ -310,8 +306,8 @@ angular.module('EvalClient').controller('AdminController',
 				$scope.quest = {
 	    			//ID: 1,
 				  	Text: $scope.Qestion,
-				  	TextEN: $scope.Qestion,
-				  	//ImageURL: "none",
+				  	TextEN: $scope.QestionEN,
+				  	ImageURL: $scope.pic,
 				  	Type: type
 	    		};
 
@@ -323,42 +319,37 @@ angular.module('EvalClient').controller('AdminController',
 				}
 				
 				$scope.ans1 = {
-					//ID: 1,
 			        Text: $scope.Answer1,
 			        TextEN: $scope.Answer1,
-			        //ImageURL: "none",
+			        ImageURL: $scope.pic,
 			        Weight: 5
 				};
+
 				$scope.answers.push($scope.ans1);
 				$scope.ans2 = {
-					//ID: 1,
 			        Text: $scope.Answer2,
 			        TextEN: $scope.Answer2,
-			        //ImageURL: "none",
+			        ImageURL: $scope.pic,
 			        Weight: 4
 				};
 				$scope.answers.push($scope.ans2);
 				$scope.ans3 = {
-					//ID: 1,
 			        Text: $scope.Answer3,
 			        TextEN: $scope.Answer3,
-			        //ImageURL: "none",
+			        ImageURL: $scope.pic,
 			        Weight: 3
 				};
 				$scope.answers.push($scope.ans3);
 				$scope.ans4 = {
-					//ID: 1,
 			        Text: $scope.Answer4,
 			        TextEN: $scope.Answer4,
-			        //ImageURL: "none",
+			        ImageURL: $scope.pic,
 			        Weight: 2
 				};
 				$scope.answers.push($scope.ans4);
 				$scope.ans5 = {
-					//ID: 1,
 			        Text: $scope.Answer5,
 			        TextEN: $scope.Answer5,
-			        //ImageURL: "none",
 			        Weight: 1
 				};
 				$scope.answers.push($scope.ans5);
@@ -373,7 +364,7 @@ angular.module('EvalClient').controller('AdminController',
 	    			//ID: 1,
 				  	Text: $scope.Qestion,
 				  	TextEN: $scope.Qestion,
-				  	//ImageURL: "none",
+				  	ImageURL: $scope.pic,
 				  	Type: type,
 				  	Answers: a
 	    		};
@@ -399,9 +390,9 @@ angular.module('EvalClient').controller('AdminController',
     		$scope.template = {
     			//ID: 1,
 			  	Title: $scope.tName,
-			  	TitleEN: $scope.tName,
+			  	TitleEN: $scope.tNameEN,
 			  	IntroText: $scope.intro,
-			  	IntroTextEN: $scope.intro,
+			  	IntroTextEN: $scope.introEN,
     			CourseQuestions: cQ,
     			TeacherQuestions: tQ
     		};
@@ -414,10 +405,6 @@ angular.module('EvalClient').controller('AdminController',
     			console.log("ekki error");
     			console.log($scope.template);
 
-    			
-    			//console.log("Er admin " + $routeParams.admin + " ?");
-				//console.log("tokenius: " + tokenius);
-
 				/*token to send with request*/
 				$http.defaults.headers.common.Authorization = "Basic " + tokenius;
     			$http.post("http://dispatch.ru.is/h33/api/v1/evaluationtemplates", $scope.template).success(function (){
@@ -425,6 +412,11 @@ angular.module('EvalClient').controller('AdminController',
     				
     				TemplateResource.gettemplates().success(function (response){
     					$scope.evaltemparr.length = 0;
+    					$('#tName').val('');
+    					$('#tNameEN').val('');
+    					$('#intro').val('');
+    					$('#introEN').val('');
+
     					for(var i in response){
 
 							$scope.evaltemparr.push(response[i]);
