@@ -6,7 +6,7 @@
             <ul class="sidebar-nav">
                 <li class="sidebar-brand">
                     <a href="#">
-                        Start Bootstrap
+                        Evaluation options
                     </a>
                 </li>
                 <li>
@@ -25,7 +25,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <h1>Templates</h1>
-                      
+                      <p>All templates that you've created are displayed in a list here below. To create a new template click on the "Template" menu button and "New evaluation template". In order to send out a specific template open the "template menu" and choose "Post evaluation." You'll need the ID of your template and that id is shown in the list here below.</p>
                         <a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Template Menu</a>
 
                             <div class="col-md-8">
@@ -58,10 +58,14 @@
                               </div>
                               <div class="modal-body">
                                     <form>
-                                        <label for="user" class="control-label">Template name</label>
+                                        <label for="user" class="control-label">Title(IS)</label>
                                         <input type="text" class="form-control" id="tName" name="tName" ng-model="tName" autofocus/>
-                                        <label for="intro" class="control-label">Intro</label>
-                                        <input type="text" class="form-control" id="intro" name="intro" ng-model="intro"/>
+                                        <label for="user" class="control-label">Title(EN)</label>
+                                        <input type="text" class="form-control" id="tNameEN" name="tNameEN" ng-model="tNameEN" />
+                                        <label for="intro" class="control-label">Introduction text(IS)</label>
+                                        <input type="text" class="form-control" id="intro" name="intro" ng-model="intro" placeholder="optional"/>
+                                        <label for="intro" class="control-label">Introduction text(EN)</label>
+                                        <input type="text" class="form-control" id="introEN" name="introEN" ng-model="introEN" placeholder="optional" />
                                         <label for="Qestion" class="control-label">Question:</label>
                                         <input type="text" class="form-control" id="Qestion" name="Qestion" ng-model="Qestion"/>
 
@@ -76,6 +80,7 @@
                                         <button type="button" class="btn btn-default" ng-click="text()">Text</button>
                                         <button type="button" class="btn btn-default" ng-click="single()">Single</button>
                                         <button type="button" class="btn btn-default" ng-click="multiple()">Multiple</button>
+                                        <input type="text" class="form-inline" id="pic" name="pic" ng-model="pic" placeholder="optional image url" />
 
                                         <div ng-show="answerOption === 2 || answerOption === 3">
                                             <label for="Single" class="control-label">Answer:</label>
