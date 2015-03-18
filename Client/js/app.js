@@ -168,12 +168,18 @@ angular.module('EvalClient').controller('StudentController',
 
 				console.log(response.Title);
 				console.log(response.TitleEN);
-				for(var i in response){
-					//evalarr.push(response[i]);
+				for (var key in response) {
+				   var obj = response[key];
+				   /*for (var prop in obj) {
+				      // important check that this is objects own property 
+				      // not from prototype prop inherited
+				      if(obj.hasOwnProperty(prop)){
+				        console.log(prop + " = " + obj[prop]);
+				      }
+				   }*/
+				   console.log(obj);
 				}
-				$scope.coursequest = response.CourseQuestions;
-				console.log(response["CourseQuestions"]);
-				
+
 			})
 			.error(function (){
 				console.log("vesen");
@@ -325,7 +331,7 @@ angular.module('EvalClient').controller('AdminController',
 				  	TextEN: $scope.Qestion,
 				  	//ImageURL: "none",
 				  	Type: type,
-				  	Answer: a
+				  	Answers: a
 	    		};
 	    		$scope.answers.length = 0;
 			}
