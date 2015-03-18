@@ -158,6 +158,10 @@ angular.module('EvalClient').controller('StudentController',
 			console.log(semester);
 			console.log(id);
 		};
+
+		$scope.postAnswers = function() {
+			console.log("answers has been sent");
+		};
 		
 	}]);
 
