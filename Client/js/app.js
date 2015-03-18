@@ -1,4 +1,4 @@
-var EvalClient = angular.module('EvalClient',['ngRoute']);
+var EvalClient = angular.module('EvalClient',['ngRoute','chart.js']);
 
 angular.module('EvalClient').constant("SERVER_URL", "http://dispatch.ru.is/h33/api/v1/");
 
@@ -18,9 +18,7 @@ angular.module('EvalClient').factory('TokenResource', function(){
 				user: user,
 				token: token
 			};
-			//console.log("storing " + tokendetails.user);
 			tokenArray.push(tokendetails);
-			//console.log(tokenArray[0]);
 		},
 		gettoken: function(user){
 			for(var i in tokenArray){
@@ -53,23 +51,38 @@ angular.module('EvalClient').factory('TemplateResource', ['$http', 'SERVER_URL',
 
 
 angular.module('EvalClient').config(
-	['$routeProvider', '$httpProvider',
-	function ($routeProvider, $httpProvider) {
+	['$routeProvider',
+	function ($routeProvider) {
 		$routeProvider
 			.when('/login', { templateUrl: 'views/login.html', controller: 'LoginController' })
 			.when('/student/:user/', { templateUrl: 'views/student.html', controller: 'StudentController'})
 			.when('/admin/:admin/', { templateUrl: 'views/admin.html', controller: 'AdminController'})
+			.when('/results/', {templateUrl: 'views/results.html', controller: 'ResultsController'})
 			.otherwise({
 	  			redirectTo: '/login'
 			});
 
 	}
 ]);
+angular.module('EvalClient').controller('ResultsController',['$scope', '$routeParams','$timeout', 
+	function ($scope, $routeParams, $timeout){
+
+	console.log("here");
+
+	$timeout(function () {
+      $scope.labels = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+      $scope.data = [
+        [28, 48, 40, 19, 86, 27, 90],
+        [65, 59, 80, 81, 56, 55, 40]
+      ];
+      $scope.series = ['Series C', 'Series D'];
+    }, 3000);
+
+}]);
 
 angular.module('EvalClient').controller('LoginController',
 	['$scope', '$location', '$rootScope', '$routeParams', '$http', 'LoginResource', 'TokenResource',
 	function ($scope, $location, $rootScope, $routeParams, $http, LoginResource,TokenResource){
-		console.log("login");
 		$scope.user = '';
 		$scope.password = '';
 		$scope.login = function() {
@@ -402,7 +415,13 @@ angular.module('EvalClient').controller('AdminController',
 				})
 			}
     	};
+    	console.log("routeparams = " + $routeParams);
+    	console.log("location = " + $location);
+    	$scope.results = function(){
 
+    		$location.path('/results/');
+
+    	};
 
 	}]);
 
