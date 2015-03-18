@@ -29,7 +29,7 @@
 			            {{item.CourseName}}/{{item.CourseNameEN}}
 			          </td>
 			          <td class="text-right text-nowrap">
-			            <button class="btn btn-xs btn-info" ng-click="geteval(item.CourseID, item.Semester, item.ID)">Evaluate</button>
+			            <button class="btn btn-xs btn-info" data-toggle="modal" data-target="#answerModal" ng-click="geteval(item.CourseID, item.Semester, item.ID)">Evaluate</button>
 			          </td>
 			        </tr>
 			      </tbody>
@@ -37,6 +37,29 @@
   			</div>
 		</div>
 	</div>
+
+	<!-- Modal -->
+    <div class="modal fade" id="answerModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	                <h4 class="modal-title" id="myModalLabel">Title</h4>
+	            </div>
+	            <div class="modal-body">
+                	<p>dosi</p>
+                </div>
+		         <div class="modal-footer">
+		            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		            <button type="button" class="btn btn-primary" ng-click="postAnswers()">Post</button>
+	          	</div>
+            </div>
+      	</div>
+    </div>
+    <!-- Modal end -->
+
+
+
 </div>
 
 
