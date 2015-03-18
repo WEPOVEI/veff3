@@ -168,17 +168,11 @@ angular.module('EvalClient').controller('StudentController',
 
 				console.log(response.Title);
 				console.log(response.TitleEN);
-				for (var key in response) {
-				   var obj = response[key];
-				   /*for (var prop in obj) {
-				      // important check that this is objects own property 
-				      // not from prototype prop inherited
-				      if(obj.hasOwnProperty(prop)){
-				        console.log(prop + " = " + obj[prop]);
-				      }
-				   }*/
-				   console.log(obj);
-				}
+				
+				var s = response["CourseQuestions"];
+				console.log(s);
+				var ans = response["Answers"];
+				console.log(ans);
 
 			})
 			.error(function (){
