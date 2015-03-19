@@ -36,7 +36,6 @@
                                             <th>ID</th>
                                             <th>Title(IS)</th>
                                             <th>Title(EN)</th>
-                                            <th>Result</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -44,14 +43,32 @@
                                             <td>{{temp.ID}}</td>
                                             <td>{{temp.Title}}</td>
                                             <td>{{temp.TitleEN}}</td>
-                                            <td><button type ="button" class="btn btn-xs btn-info" ng-click="results(temp.ID)">View Results</button></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-md-8">
+                                <h3>Open evaluations</h3>
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Title(IS)</th>
+                                            <th>Title(EN)</th>
+                                            <th>Result</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="evals in openEvals">
+                                            <td>{{evals.ID}}</td>
+                                            <td>{{evals.TemplateTitle}}</td>
+                                            <td>{{evals.TemplateTitleEN}}</td>
+                                            <td><button type ="button" class="btn btn-xs btn-info" ng-click="results(evals.ID)">View Results</button></td>
                                         </tr>
                                     </tbody>
                                 </table>
                              </div>
-                             <div class ="col-md-4">
-                                <button type ="button" class="btn btn-xs btn-info" ng-click="results()">View Results</button>
-                             </div>
+
 
                         <!-- Modal -->
                         <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -73,15 +90,6 @@
                                         <input type="text" class="form-control" id="introEN" name="introEN" ng-model="introEN" placeholder="optional" />
                                         <label for="Qestion" class="control-label">Question:</label>
                                         <input type="text" class="form-control" id="Qestion" name="Qestion" ng-model="Qestion"/>
-
-                                        <!--<label for="answers" class="control-label">Type of answer:</label>
-                                        <input type="radio" name="answers" id="textA" value="1" checked="checked"/>
-                                        Text
-                                        <input type="radio" name="answers" id="singleA" value="2"/>
-                                        Single
-                                        <input type="radio" name="answers" id="mutlA" value="3"/>
-                                        Multiple
-                                        <br>-->
                                         <button type="button" class="btn btn-default" ng-click="text()">Text</button>
                                         <button type="button" class="btn btn-default" ng-click="single()">Single</button>
                                         <button type="button" class="btn btn-default" ng-click="multiple()">Multiple</button>
