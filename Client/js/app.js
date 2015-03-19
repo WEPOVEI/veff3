@@ -115,10 +115,10 @@ angular.module('EvalClient').controller('ResultsController',['$scope', '$rootSco
 	$scope.theid = $rootScope.resultID;
 	console.log($scope.theid);
 
-	EvaluationResource.getevaluationresult($scope.theid).success(function (response) {
+	/*EvaluationResource.getevaluationresult($scope.theid).success(function (response) {
 		console.log("HIIIIIIIII");
 		console.log(response);
-	});
+	});*/
 
 	var chart = new CanvasJS.Chart("chartContainer", {
 		theme: "theme2",//theme1
