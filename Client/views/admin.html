@@ -36,6 +36,7 @@
                                             <th>ID</th>
                                             <th>Title(IS)</th>
                                             <th>Title(EN)</th>
+                                            <th>Result</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -43,12 +44,13 @@
                                             <td>{{temp.ID}}</td>
                                             <td>{{temp.Title}}</td>
                                             <td>{{temp.TitleEN}}</td>
+                                            <td><button type ="button" class="btn btn-xs btn-info" ng-click="results(temp.ID)">View Results</button></td>
                                         </tr>
                                     </tbody>
                                 </table>
                              </div>
                              <div class ="col-md-4">
-                                <button type ="button" class="btn btn-primary" ng-click="results()">View Results</button>
+                                <button type ="button" class="btn btn-xs btn-info" ng-click="results()">View Results</button>
                              </div>
 
                         <!-- Modal -->

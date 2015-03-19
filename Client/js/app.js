@@ -83,8 +83,11 @@ angular.module('EvalClient').factory('EvaluationResource', ['$http', 'SERVER_URL
 			
 		},
 		postevaluation: function(eval){
-			return $htp.post(SERVER_URL + "evaluations", eval);
+			return $http.post(SERVER_URL + "evaluations", eval);
 
+		},
+		getevaluationresult: function(id){
+			return $http.get(SERVER_URL + "evaluations", id);
 		}
 	}
 }]);
@@ -105,20 +108,39 @@ angular.module('EvalClient').config(
 
 	}
 ]);
-angular.module('EvalClient').controller('ResultsController',['$scope', '$routeParams','$timeout', 
-	function ($scope, $routeParams, $timeout){
+angular.module('EvalClient').controller('ResultsController',['$scope', '$rootScope', '$routeParams','$timeout' ,'EvaluationResource', 
+	function ($scope, $rootScope, $routeParams, $timeout, EvaluationResource){
 
 	console.log("here");
+	$scope.theid = $rootScope.resultID;
+	console.log($scope.theid);
 
-	$timeout(function () {
-      $scope.labels = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-      $scope.data = [
-        [28, 48, 40, 19, 86, 27, 90],
-        [65, 59, 80, 81, 56, 55, 40]
-      ];
-      $scope.series = ['Series C', 'Series D'];
-    }, 3000);
+	EvaluationResource.getevaluationresult($scope.theid).success(function (response) {
+		console.log("HIIIIIIIII");
+		console.log(response);
+	});
 
+	var chart = new CanvasJS.Chart("chartContainer", {
+		theme: "theme2",//theme1
+		title:{
+			text: "Basic Column Chart - CanvasJS"              
+		},
+		animationEnabled: false,   // change to true
+		data: [              
+		{
+			// Change type to "bar", "splineArea", "area", "spline", "pie",etc.
+			type: "column",
+			dataPoints: [
+				{ label: "apple",  y: 10  },
+				{ label: "orange", y: 15  },
+				{ label: "banana", y: 25  },
+				{ label: "mango",  y: 30  },
+				{ label: "grape",  y: 28  }
+			]
+		}
+		]
+	});
+	chart.render();
 }]);
 
 angular.module('EvalClient').controller('LoginController',
@@ -525,8 +547,9 @@ angular.module('EvalClient').controller('AdminController',
     	};
     	console.log("routeparams = " + $routeParams);
     	console.log("location = " + $location);
-    	$scope.results = function(){
-
+    	$scope.results = function(ID){
+    		console.log("ID: " + ID);
+    		$rootScope.resultID = ID;
     		$location.path('/results/');
 
     	};
