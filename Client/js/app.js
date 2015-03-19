@@ -183,12 +183,7 @@ angular.module('EvalClient').controller('StudentController',
 			});
 		};
 
-		$scope.postAnswers = function() {
-			console.log("answers has been sent");
-			$scope.courseQuest.length = 0;
-			$scope.teachQuest.length = 0;
-		};
-
+		$scope.submitAns = [];
 		$scope.submitAnswer = function (question) {
 			console.log("->");
 			console.log(question);
@@ -218,16 +213,24 @@ angular.module('EvalClient').controller('StudentController',
 			}
 			console.log("answer: " + answer);
 			if(answer !== "0"){
+				$scope.answerTemplate = {
+					QuestionID: question.ID,
+					//TeacherSSN: ,
+					Value: answer
+				};
+				$scope.submitAns.push($scope.answerTemplate);
 				console.log("lets send");
 			}else {
 				console.log("errno");
 			}
-			
-			
-
-
 		};
 		
+		$scope.postAnswers = function() {
+			console.log($scope.submitAns);
+			console.log("answers has been sent");
+			$scope.courseQuest.length = 0;
+			$scope.teachQuest.length = 0;
+		};
 	}]);
 
 angular.module('EvalClient').controller('AdminController', 
