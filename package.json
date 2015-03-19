@@ -1,0 +1,26 @@
+{
+  "name": "EvalClient",
+  "version": "1.0.0",
+  "description": "Evaluation stuff",
+  "main": "app.js",
+  "dependencies": {},
+  "devDependencies": {
+    "jasmine-core": "^2.2.0",
+    "karma": "^0.12.31",
+    "karma-chrome-launcher": "^0.1.7",
+    "karma-jasmine": "^0.3.5"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/WEPOVEI/veff3.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/WEPOVEI/veff3/issues"
+  },
+  "homepage": "https://github.com/WEPOVEI/veff3"
+}

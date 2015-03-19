@@ -1,0 +1,21 @@
+{
+  "name": "veff3",
+  "version": "0.0.0",
+  "homepage": "https://github.com/WEPOVEI/veff3",
+  "authors": [
+    "(Einar Logi Hreinsson <einarlogi14@gmail.com>)(Vignir Karl Gylfason <vignirk@gmail.com>)(Pétur Bergmann Halldórsson <peturh13@ru.is>)"
+  ],
+  "description": "Evaluation Client",
+  "main": "Client/css/style/css",
+  "license": "MIT",
+  "ignore" : [
+  	"**/*.",
+  	"bower_components",
+  	"node_modules"
+  ],
+  "dependencies": {
+  	"angular" : "~1.3.14",
+  	"angular-route": "~1.3.14",
+  	"bootstrap": "~3.3.2"
+  }
+}
