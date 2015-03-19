@@ -1,8 +1,8 @@
-/*describe("An AngularJS test suite", function(){
+describe("An AngularJS test suite", function(){
 	it('should have tests', function(){
 		expect(true).toBe(true);
 	});
-});*/
+});
 
 describe('LoginController', function (){
 	beforeEach(module('ngRoute'));
@@ -16,59 +16,3 @@ describe('LoginController', function (){
 		expect($routeProvider).toBeDefined();
 	}))
 })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
