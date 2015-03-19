@@ -12,10 +12,12 @@
 			 	</thead>
 			 	<tbody>
 			 		<tr ng-repeat="item in courseobjarr">
-			 			<td>{{item.CourseID}}</td>
-			 			<td>{{item.Name}}</td>
-			 			<td>{{item.NameEN}}</td>
+			 			<td my-dom-directive>{{item.CourseID}}</td>
+			 			<td my-dom-directive>{{item.Name}}</td>
+			 			<td my-dom-directive>{{item.NameEN}}</td>
+			 			<my-dom-directive item="item"></my-dom-directive>
 			 		</tr>
+
 			 	</tbody>
 			</table>
 		</div>
