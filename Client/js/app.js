@@ -80,14 +80,13 @@ angular.module('EvalClient').factory('EvaluationResource', ['$http', 'SERVER_URL
 	return{
 		getevaluations: function(){
 			return $http.get(SERVER_URL + "evaluations");
-			
 		},
 		postevaluation: function(eval){
 			return $http.post(SERVER_URL + "evaluations", eval);
 
 		},
 		getevaluationresult: function(id){
-			return $http.get(SERVER_URL + "evaluations", id);
+			return $http.get(SERVER_URL + "evaluations/" + id);
 		}
 	}
 }]);
@@ -108,39 +107,45 @@ angular.module('EvalClient').config(
 
 	}
 ]);
-angular.module('EvalClient').controller('ResultsController',['$scope', '$rootScope', '$routeParams','$timeout' ,'EvaluationResource', 
-	function ($scope, $rootScope, $routeParams, $timeout, EvaluationResource){
+angular.module('EvalClient').controller('ResultsController',['$scope', '$location', '$http', '$rootScope', '$routeParams','$timeout' ,'EvaluationResource', 'TokenResource', 
+	function ($scope, $location, $http, $rootScope, $routeParams, $timeout, EvaluationResource, TokenResource){
 
 	console.log("here");
 	$scope.theid = $rootScope.resultID;
 	console.log($scope.theid);
 
-	/*EvaluationResource.getevaluationresult($scope.theid).success(function (response) {
+	//var tokenius = TokenResource.gettoken($routeParams.user);
+	//$http.defaults.headers.common.Authorization = "Basic " + tokenius;
+
+	EvaluationResource.getevaluationresult($scope.theid).success(function (response) {
 		console.log("HIIIIIIIII");
 		console.log(response);
-	});*/
 
-	var chart = new CanvasJS.Chart("chartContainer", {
-		theme: "theme2",//theme1
-		title:{
-			text: "Basic Column Chart - CanvasJS"              
-		},
-		animationEnabled: false,   // change to true
-		data: [              
-		{
-			// Change type to "bar", "splineArea", "area", "spline", "pie",etc.
-			type: "column",
-			dataPoints: [
-				{ label: "apple",  y: 10  },
-				{ label: "orange", y: 15  },
-				{ label: "banana", y: 25  },
-				{ label: "mango",  y: 30  },
-				{ label: "grape",  y: 28  }
+		var chart = new CanvasJS.Chart("chartContainer", {
+			theme: "theme2",//theme1
+			title:{
+				text: response.TemplateTitle            
+			},
+			animationEnabled: false,   // change to true
+			data: [              
+			{
+				// Change type to "bar", "splineArea", "area", "spline", "pie",etc.
+				type: "column",
+				dataPoints: [
+					{ label: "Gervigreind",  y: 10  },
+					{ label: "Vefforritun II", y: 15  },
+					{ label: "Forritunarmál", y: 25  },
+					{ label: "Stýrikerfi",  y: 30  },
+				]
+			}
 			]
-		}
-		]
+		});
+		chart.render();
+
+	})
+	.error(function (){
+		console.log("EN ERROR");
 	});
-	chart.render();
 }]);
 
 angular.module('EvalClient').controller('LoginController',
@@ -269,7 +274,8 @@ angular.module('EvalClient').controller('StudentController',
 		$scope.submitAnswer = function (question) {
 			console.log("->");
 			console.log(question);
-			var answer = "0";
+			var answer = 0;
+			var questID;
 			if(question.Type === "text"){
 				var str = "#a" + question.ID;
 				console.log("string: " + str);
@@ -282,21 +288,31 @@ angular.module('EvalClient').controller('StudentController',
 				console.log("->");
 				console.log("a" + question.Answers[0].Text);
 				if (document.getElementById("a" + question.Answers[0].ID).checked) {
-					answer = "5";
+					console.log("Quest ID: " + question.Answers[0].ID);
+					questID = question.Answers[0].ID;
+					answer = 5;
 				}if(document.getElementById("b" + question.Answers[1].ID).checked){
-					answer = "4";
+					console.log("Quest ID: " + question.Answers[1].ID);
+					questID = question.Answers[1].ID;
+					answer = 4;
 				}if(document.getElementById("c" + question.Answers[2].ID).checked){
-					answer = "3";
+					console.log("Quest ID: " + question.Answers[2].ID);
+					questID = question.Answers[2].ID;
+					answer = 3;
 				}if(document.getElementById("d" + question.Answers[3].ID).checked){
-					answer = "2";
+					console.log("Quest ID: " + question.Answers[3].ID);
+					questID = question.Answers[3].ID;
+					answer = 2;
 				}if(document.getElementById("e" + question.Answers[4].ID).checked){
-					answer = "1";
+					console.log("Quest ID: " + question.Answers[4].ID);
+					questID = question.Answers[4].ID;
+					answer = 1;
 				}
 			}
 			console.log("answer: " + answer);
 			if(answer !== "0" && answer !== ""){
 				$scope.answerTemplate = {
-					QuestionID: question.ID,
+					QuestionID: questID, //question.ID,
 					//TeacherSSN: ,
 					Value: answer
 				};
@@ -313,6 +329,8 @@ angular.module('EvalClient').controller('StudentController',
 			var arr = CourseResource.getinfo();
 			console.log(arr);
 			// Send answers to the API
+			console.log("---->");
+			console.log($scope.submitAns);
 			CourseResource.postevaluation(arr[0], arr[1], arr[2], $scope.submitAns).success(function() {
 				console.log("SUCCESS!!!");
 			});
@@ -331,6 +349,7 @@ angular.module('EvalClient').controller('AdminController',
 		$scope.answers = [];
 		$scope.answerOption = 1;
 		$scope.evaltemparr = [];
+		$scope.openEvals = [];
 
 		var tokenius = TokenResource.gettoken($routeParams.admin);
 
@@ -346,6 +365,20 @@ angular.module('EvalClient').controller('AdminController',
     	.error(function(){
     		console.log("get error");
     	})
+
+    	EvaluationResource.getevaluations().success(function (response){
+    		for(var i in response){
+    			if(response[i].Status === "open"){
+    				$scope.openEvals.push(response[i]);
+    			}
+			}
+			console.log("----->");
+    		console.log($scope.openEvals);
+    	})
+    	.error(function(){
+    		console.log("BLESS");
+    	})
+
 		// Datepicker start
 		var nowTemp = new Date();
 		var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
