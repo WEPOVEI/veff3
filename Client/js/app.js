@@ -31,7 +31,6 @@ angular.module('EvalClient').factory('TokenResource', function(){
 });
 
 angular.module('EvalClient').factory('MyResource', ['$http', 'SERVER_URL', function ($http, SERVER_URL){
-
 	return{
 		getmycourses: function(){
 			return $http.get(SERVER_URL + "my" + "/courses");
@@ -43,8 +42,18 @@ angular.module('EvalClient').factory('MyResource', ['$http', 'SERVER_URL', funct
 }]);
 
 angular.module('EvalClient').factory('CourseResource', ['$http', 'SERVER_URL', function ($http, SERVER_URL){
+	var courseArray = [];
 
 	return{
+		storeinfo: function(courseid, semester, id){
+			courseArray.length = 0;
+			courseArray.push(courseid);
+			courseArray.push(semester);
+			courseARray.push(id);
+		},
+		getinfo: function(){
+			return courseArray;
+		},
 		getcourseeval: function(courseid, semester, id){
 			return $http.get("http://dispatch.ru.is/h33/api/v1/courses/" + courseid + "/" + semester + "/" + "evaluations/" + id);
 		},
@@ -207,6 +216,9 @@ angular.module('EvalClient').controller('StudentController',
 			console.log(semester);
 			console.log(id);
 
+			//vinna her
+			CourseResource.storeinfo(courseid, semester, id);
+
 			/*Get ready evaluations for student to answer*/
 			CourseResource.getcourseeval(courseid, semester, id)
 			.success(function (response){
@@ -273,11 +285,13 @@ angular.module('EvalClient').controller('StudentController',
 			}
 		};
 		
-		$scope.postAnswers = function(courseid, semester, id) {
+		$scope.postAnswers = function() {
 			console.log($scope.submitAns);
 			console.log("answers has been sent");
+			var arr = CourseResource.getinfo();
+			console.log(arr);
 			// Send answers to the API
-			CourseResource.postevaluation(courseid, semester, id, $scope.submitAns).success(function() {
+			CourseResource.postevaluation(arr[0], arr[1], arr[2], $scope.submitAns).success(function() {
 				console.log("SUCCESS!!!");
 			});
 			$scope.courseQuest.length = 0;
