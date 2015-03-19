@@ -18,9 +18,7 @@ angular.module('EvalClient').factory('TokenResource', function(){
 				user: user,
 				token: token
 			};
-			//console.log("storing " + tokendetails.user);
 			tokenArray.push(tokendetails);
-			//console.log(tokenArray[0]);
 		},
 		gettoken: function(user){
 			for(var i in tokenArray){
@@ -32,11 +30,26 @@ angular.module('EvalClient').factory('TokenResource', function(){
 	}
 });
 
+angular.module('EvalClient').factory('MyResource', ['$http', 'SERVER_URL', function ($http, SERVER_URL){
+
+	return{
+		getmycourses: function(){
+			return $http.get(SERVER_URL + "my" + "/courses");
+		},
+		getmyevaluations: function (){
+			return $http.get(SERVER_URL + "my" + "/evaluations");
+		}
+	}
+}]);
+
 angular.module('EvalClient').factory('CourseResource', ['$http', 'SERVER_URL', function ($http, SERVER_URL){
 
 	return{
-		getcourses: function(user){
-			return $http.get(SERVER_URL + "my" + "/courses");
+		getcourseeval: function(courseid, semester, id){
+			return $http.get("http://dispatch.ru.is/h33/api/v1/courses/" + courseid + "/" + semester + "/" + "evaluations/" + id);
+		},
+		postmyevaluation: function (){
+			return$http.post("http://dispatch.ru.is/h33/api/v1/courses/" + courseid + "/" + semester + "/" + "evaluations/" + id);
 		}
 	}
 }]);
@@ -45,31 +58,63 @@ angular.module('EvalClient').factory('TemplateResource', ['$http', 'SERVER_URL',
 
 	return{
 		gettemplates: function(){
-			return $http.get(SERVER_URL + "/evaluationtemplates");
-			//$http.get("http://dispatch.ru.is/h33/api/v1/evaluationtemplates")
+			return $http.get(SERVER_URL + "evaluationtemplates");
+			
+		},
+		posttemplate: function (template){
+			return $http.post(SERVER_URL + "evaluationtemplates", template);
+		}
+	}
+}]);
+angular.module('EvalClient').factory('EvaluationResource', ['$http', 'SERVER_URL', function ($http, SERVER_URL){
+
+	return{
+		getevaluations: function(){
+			return $http.get(SERVER_URL + "evaluations");
+			
+		},
+		postevaluation: function(eval){
+			return $htp.post(SERVER_URL + "evaluations", eval);
+
 		}
 	}
 }]);
 
 
+
 angular.module('EvalClient').config(
-	['$routeProvider', '$httpProvider',
-	function ($routeProvider, $httpProvider) {
+	['$routeProvider',
+	function ($routeProvider) {
 		$routeProvider
 			.when('/login', { templateUrl: 'views/login.html', controller: 'LoginController' })
 			.when('/student/:user/', { templateUrl: 'views/student.html', controller: 'StudentController'})
 			.when('/admin/:admin/', { templateUrl: 'views/admin.html', controller: 'AdminController'})
+			.when('/results/', {templateUrl: 'views/results.html', controller: 'ResultsController'})
 			.otherwise({
 	  			redirectTo: '/login'
 			});
 
 	}
 ]);
+angular.module('EvalClient').controller('ResultsController',['$scope', '$routeParams','$timeout', 
+	function ($scope, $routeParams, $timeout){
+
+	console.log("here");
+
+	$timeout(function () {
+      $scope.labels = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+      $scope.data = [
+        [28, 48, 40, 19, 86, 27, 90],
+        [65, 59, 80, 81, 56, 55, 40]
+      ];
+      $scope.series = ['Series C', 'Series D'];
+    }, 3000);
+
+}]);
 
 angular.module('EvalClient').controller('LoginController',
 	['$scope', '$location', '$rootScope', '$routeParams', '$http', 'LoginResource', 'TokenResource',
 	function ($scope, $location, $rootScope, $routeParams, $http, LoginResource,TokenResource){
-		console.log("login");
 		$scope.user = '';
 		$scope.password = '';
 		$scope.login = function() {
@@ -117,8 +162,8 @@ angular.module('EvalClient').controller('LoginController',
 }]);
 
 angular.module('EvalClient').controller('StudentController', 
-	['$scope', '$location', '$rootScope', '$routeParams', '$http','TokenResource', 'CourseResource', 
-	function ($scope, $location, $rootScope, $routeParams, $http, TokenResource, CourseResource){
+	['$scope', '$location', '$rootScope', '$routeParams', '$http','TokenResource', 'MyResource', 'CourseResource',
+	function ($scope, $location, $rootScope, $routeParams, $http, TokenResource, MyResource, CourseResource){
 		$scope.courseobjarr = [];
 		$scope.currentuser = $routeParams.user;
 		$scope.evalarr = [];
@@ -128,7 +173,7 @@ angular.module('EvalClient').controller('StudentController',
 		$http.defaults.headers.common.Authorization = "Basic " + tokenius;
 
 		/* get all courses from api and push course objects into array for later usage*/
-		CourseResource.getcourses($routeParams.user).success(function (response){
+		MyResource.getmycourses().success(function (response){
 
 			for(var i in response){
 				$scope.courseobjarr.push(response[i]);
@@ -138,7 +183,8 @@ angular.module('EvalClient').controller('StudentController',
 			console.log("fail course api");
 		});
 
-		$http.get("http://dispatch.ru.is/h33/api/v1/my/evaluations").success(function (response){
+		MyResource.getmyevaluations().success(function (response){
+			console.log("factory works")
 			for(var i in response){
 				//console.log(response[i]);
 				$scope.evalarr.push(response[i]);
@@ -160,7 +206,9 @@ angular.module('EvalClient').controller('StudentController',
 			console.log(courseid);
 			console.log(semester);
 			console.log(id);
-			$http.get("http://dispatch.ru.is/h33/api/v1/courses/" + courseid + "/" + semester + "/" + "evaluations/" + id)
+
+			/*Get ready evaluations for student to answer*/
+			CourseResource.getcourseeval(courseid, semester, id)
 			.success(function (response){
 				$scope.evalTitle =  response["Title"];
 				$scope.evaltitleEN = response["TitleEN"];
@@ -234,8 +282,8 @@ angular.module('EvalClient').controller('StudentController',
 	}]);
 
 angular.module('EvalClient').controller('AdminController', 
-	['$scope', '$location', '$rootScope', '$routeParams', '$http', 'TokenResource','TemplateResource',
-	function ($scope, $location, $rootScope, $routeParams, $http, TokenResource, TemplateResource){
+	['$scope', '$location', '$rootScope', '$routeParams', '$http', 'TokenResource','TemplateResource', 'EvaluationResource',
+	function ($scope, $location, $rootScope, $routeParams, $http, TokenResource, TemplateResource, EvaluationResource){
 
 		$scope.courseQ = [];
 		$scope.teachQ = [];
@@ -410,9 +458,11 @@ angular.module('EvalClient').controller('AdminController',
 
 				/*token to send with request*/
 				$http.defaults.headers.common.Authorization = "Basic " + tokenius;
-    			$http.post("http://dispatch.ru.is/h33/api/v1/evaluationtemplates", $scope.template).success(function (){
+				/* send template to the server */
+    			TemplateResource.posttemplate($scope.template).success(function (){
     				console.log("template hefur verid sent a server");
     				
+    				/*small hax to get the list of templates to update on admin.html*/
     				TemplateResource.gettemplates().success(function (response){
     					$scope.evaltemparr.length = 0;
     					$('#tName').val('');
@@ -444,12 +494,23 @@ angular.module('EvalClient').controller('AdminController',
 					StartDate: start.toISOString(),
 					EndDate: end.toISOString()
 				};
-				$http.post("http://dispatch.ru.is/h33/api/v1/evaluations", $scope.eval).success(function (){
+
+				/* post a specific evaluation to server, these are the templates that users will eventually see*/
+				EvaluationResource.postevaluation($scope.eval).success(function (response){
 					console.log("template has been sent");
 				})
+				.error(function (){
+					console.log("evaluationresource error");
+				});
 			}
     	};
+    	console.log("routeparams = " + $routeParams);
+    	console.log("location = " + $location);
+    	$scope.results = function(){
 
+    		$location.path('/results/');
+
+    	};
 
 	}]);
 
