@@ -55,10 +55,10 @@ angular.module('EvalClient').factory('CourseResource', ['$http', 'SERVER_URL', f
 			return courseArray;
 		},
 		getcourseeval: function(courseid, semester, id){
-			return $http.get("http://dispatch.ru.is/h33/api/v1/courses/" + courseid + "/" + semester + "/" + "evaluations/" + id);
+			return $http.get(SERVER_URL + "courses/" + courseid + "/" + semester + "/" + "evaluations/" + id);
 		},
 		postevaluation: function (courseid, semester, id, ans){
-			return $http.post("http://dispatch.ru.is/h33/api/v1/courses/" + courseid + "/" + semester + "/" + "evaluations/" + id, ans);
+			return $http.post(SERVER_URL + "courses/" + courseid + "/" + semester + "/" + "evaluations/" + id, ans);
 		}
 	}
 }]);
