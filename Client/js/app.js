@@ -49,7 +49,7 @@ angular.module('EvalClient').factory('CourseResource', ['$http', 'SERVER_URL', f
 			courseArray.length = 0;
 			courseArray.push(courseid);
 			courseArray.push(semester);
-			courseARray.push(id);
+			courseArray.push(id);
 		},
 		getinfo: function(){
 			return courseArray;
