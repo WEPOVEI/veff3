@@ -48,8 +48,8 @@ angular.module('EvalClient').factory('CourseResource', ['$http', 'SERVER_URL', f
 		getcourseeval: function(courseid, semester, id){
 			return $http.get("http://dispatch.ru.is/h33/api/v1/courses/" + courseid + "/" + semester + "/" + "evaluations/" + id);
 		},
-		postmyevaluation: function (){
-			return$http.post("http://dispatch.ru.is/h33/api/v1/courses/" + courseid + "/" + semester + "/" + "evaluations/" + id);
+		postevaluation: function (courseid, semester, id, ans){
+			return $http.post("http://dispatch.ru.is/h33/api/v1/courses/" + courseid + "/" + semester + "/" + "evaluations/" + id, ans);
 		}
 	}
 }]);
@@ -260,7 +260,7 @@ angular.module('EvalClient').controller('StudentController',
 				}
 			}
 			console.log("answer: " + answer);
-			if(answer !== "0"){
+			if(answer !== "0" && answer !== ""){
 				$scope.answerTemplate = {
 					QuestionID: question.ID,
 					//TeacherSSN: ,
@@ -273,11 +273,16 @@ angular.module('EvalClient').controller('StudentController',
 			}
 		};
 		
-		$scope.postAnswers = function() {
+		$scope.postAnswers = function(courseid, semester, id) {
 			console.log($scope.submitAns);
 			console.log("answers has been sent");
+			// Send answers to the API
+			CourseResource.postevaluation(courseid, semester, id, $scope.submitAns).success(function() {
+				console.log("SUCCESS!!!");
+			});
 			$scope.courseQuest.length = 0;
 			$scope.teachQuest.length = 0;
+			//$scope.submitAns.length = 0;
 		};
 	}]);
 
